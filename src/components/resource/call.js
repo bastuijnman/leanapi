@@ -7,7 +7,6 @@ import classNames from 'classnames';
 
 // Components
 import { RaisedButton, Paper, Menu, MenuItem } from 'material-ui';
-import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 
 // Internal Components
 import Params from './call/params';
@@ -58,7 +57,7 @@ module.exports = React.createClass({
                     <p>{call.description}</p>
                 </div>
 
-                <Params title="URI Parameters" params={resource.parameters} />
+                <Params title="Path Parameters" params={resource.parameters} />
                 <Params title="Query Parameters" params={call.query} />
                 <Params title="Headers" params={call.headers} />
                 <Responses responses={call.responses} />
@@ -111,21 +110,6 @@ module.exports = React.createClass({
 
                 .body-select {
                     margin-left: 25px;
-                }
-
-                .ReactTabs__TabList {
-                    margin: 0;
-                    padding: 0;
-                    list-style: none;
-                    text-align: center;
-                }
-
-                .ReactTabs__Tab {
-                    display: inline-block;
-                }
-
-                .ReactTabs__TabPanel {
-                    padding: 15px 30px 15px 60px;
                 }
             </style>
         );

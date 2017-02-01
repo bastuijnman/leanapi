@@ -62,7 +62,7 @@ module.exports = React.createClass({
                             {responses}
                         </List>
                     </div>
-                    <div style={{width: '75%', float: 'left'}}>
+                    <div style={{width: '75%', float: 'left', maxHeight: '500px', overflow: 'scroll'}}>
                         {this.state.examples.map((example) => (
                             <div>
                                 <h3>{example.description}</h3>
@@ -80,6 +80,7 @@ module.exports = React.createClass({
         return (
             <style>
                 h2 { padding-left: 15px; }
+                h3 { padding-left: 15px; }
             </style>
         );
     }
