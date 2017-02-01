@@ -14,7 +14,7 @@ module.exports = React.createClass({
         if (!bodies || bodies.length === 0) {
             return null;
         }
-        console.log(bodies);
+
         return (
             <div>
                 <h4>

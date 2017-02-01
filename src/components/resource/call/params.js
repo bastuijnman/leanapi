@@ -54,10 +54,12 @@ module.exports = React.createClass({
 
         return (
             <CSSX styles={this.css()}>
-                <h3>{this.props.title}</h3>
-                <dl>
-                    {rendered}
-                </dl>
+                <div className="params">
+                    <h2>{this.props.title}</h2>
+                    <dl>
+                        {rendered}
+                    </dl>
+                </div>
             </CSSX>
         );
     },
@@ -65,6 +67,7 @@ module.exports = React.createClass({
     css () {
         return (
             <style>
+            .params { padding-left: 15px; }
             dl dt { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0, 0.1); }
             dl dt span { color: rgba(0, 0, 0, 0.5); font-style: italic; display: inline-block; margin: 0 10px; }
             dl dd { margin-bottom: 15px; }

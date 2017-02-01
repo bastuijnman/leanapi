@@ -6,13 +6,12 @@ import CSSX from 'react-cssx';
 import classNames from 'classnames';
 
 // Components
-import RaisedButton from 'material-ui/RaisedButton';
+import { RaisedButton, Paper, Menu, MenuItem } from 'material-ui';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 
 // Internal Components
 import Params from './call/params';
-import Response from './call/response';
-import Body from './call/body';
+import Responses from './call/responses';
 
 // Styling colors
 import {
@@ -58,21 +57,11 @@ module.exports = React.createClass({
                     </h2>
                     <p>{call.description}</p>
                 </div>
-                <Tabs onSelect={this.onTabSelect}>
-                    <TabList>
-                        <Tab><RaisedButton primary={this.state.activeTabIndex === 0}>Request</RaisedButton></Tab>
-                        <Tab><RaisedButton primary={this.state.activeTabIndex === 1}>Response</RaisedButton></Tab>
-                    </TabList>
-                    <TabPanel>
-                        <Params title="URI Parameters" params={resource.parameters} />
-                        <Params title="Query Parameters" params={call.query} />
-                        <Params title="Headers" params={call.headers} />
-                        <Body bodies={call.body} />
-                    </TabPanel>
-                    <TabPanel>
-                        {call.responses.map((response) => (<Response response={response} />))}
-                    </TabPanel>
-                </Tabs>
+
+                <Params title="URI Parameters" params={resource.parameters} />
+                <Params title="Query Parameters" params={call.query} />
+                <Params title="Headers" params={call.headers} />
+                <Responses responses={call.responses} />
             </CSSX>
         );
     },

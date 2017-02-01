@@ -5,6 +5,7 @@ import React from 'react';
 import { Router, Route, hashHistory } from 'react-router';
 import CSSX from 'react-cssx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DefaultTheme from './themes/default';
 
 // Needed for material-ui
 let injectTapEventPlugin = require("react-tap-event-plugin");
@@ -13,10 +14,10 @@ injectTapEventPlugin();
 // Components
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import { List, ListItem, MakeSelectable } from 'material-ui/List';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 
 // Create the SelectableList component
-const SelectableList = MakeSelectable(List);
+const SelectableList = makeSelectable(List);
 
 // Internal components
 import Home from './components/home';
@@ -94,27 +95,27 @@ module.exports = React.createClass({
         // Render actual application
         return (
             <CSSX styles={this.css()}>
-            <MuiThemeProvider>
-                <div>
-                    <AppBar style={{position:'fixed'}} onLeftIconButtonTouchTap={this.onToggleMenu} children={[
-                        //<SearchIcon color="#FFF" viewBox="0 0 25 25" style={{ width: '40px', height: '40px', margin: '12px 12px 12px 0px' }} />,
-                        //<TextField fullWidth={true} style={{height: '64px'}} inputStyle={{color: '#FFF'}} underlineStyle={{borderColor: '#FFF'}} />
-                    ]} />
+                <MuiThemeProvider muiTheme={DefaultTheme}>
+                    <div>
+                        <AppBar style={{position:'fixed'}} onLeftIconButtonTouchTap={this.onToggleMenu} />
 
-                    <div className="page-content" style={{paddingLeft: this.state.menu ? '256px' : '0px'}}>
-                        <Router history={hashHistory}>
-                            <Route path="/" component={() => (<Home api={api} />)} />
-                            <Route path="/*" component={(nextState, callback) => (<Resource resource={this.getResourceByUrl('/' + nextState.params.splat)} />)} />
-                        </Router>
+                        <div className="page-content" style={{paddingLeft: this.state.menu ? '256px' : '0px'}}>
+                            <Router history={hashHistory}>
+                                <Route path="/" component={() => (<Home api={api} />)} />
+                                <Route path="/*" component={
+                                    (nextState, callback) => (
+                                        <Resource resource={this.getResourceByUrl('/' + nextState.params.splat)} />
+                                    )
+                                } />
+                            </Router>
+                        </div>
+
+                        <Drawer open={this.state.menu}>
+                            <AppBar onLeftIconButtonTouchTap={this.onToggleMenu} />
+                            <SelectableList onChange={this.onChangeNav}>{list}</SelectableList>
+                        </Drawer>
                     </div>
-
-                    // Side menu
-                    <Drawer open={this.state.menu}>
-                        <AppBar onLeftIconButtonTouchTap={this.onToggleMenu} />
-                        <SelectableList onChange={this.onChangeNav}>{list}</SelectableList>
-                    </Drawer>
-                </div>
-            </MuiThemeProvider>
+                </MuiThemeProvider>
             </CSSX>
         );
     },
