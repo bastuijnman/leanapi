@@ -6,7 +6,7 @@ import CSSX from 'react-cssx';
 
 // Components
 import { Paper, List, ListItem } from 'material-ui';
-import { green500 } from 'material-ui/styles/colors';
+import { green500, orange500 } from 'material-ui/styles/colors';
 import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { githubGist } from 'react-syntax-highlighter/dist/styles';
@@ -17,7 +17,11 @@ githubGist.hljs.margin = '0';
 
 // Status code colors
 let statusColors = {
-    2: green500
+    // 2XX status codes
+    2: green500,
+
+    // 4XX status codes
+    4: orange500
 }
 
 module.exports = React.createClass({

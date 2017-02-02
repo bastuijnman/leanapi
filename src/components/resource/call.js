@@ -26,9 +26,6 @@ import {
     teal50
 } from 'material-ui/styles/colors';
 
-// Don't use styling with tabs
-Tabs.setUseDefaultStyles(false);
-
 // Component
 module.exports = React.createClass({
 
@@ -36,12 +33,6 @@ module.exports = React.createClass({
         return {
             activeTabIndex: 0
         };
-    },
-
-    onTabSelect (index, previous) {
-        this.setState({
-            activeTabIndex: index
-        });
     },
 
     render () {
