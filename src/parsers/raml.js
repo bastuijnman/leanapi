@@ -6,7 +6,8 @@ let path = require('path');
 module.exports = {
 
     parse () {
-        let api = parser.loadApiSync(path.resolve(__dirname, '../../../smart-ott-api/spec/api.raml'));
+        let apiPath = path.resolve(__dirname, '../../../smart-ott-api/spec/api.raml');
+        let api = parser.loadApiSync(apiPath).expand();
 
         return {
             title: api.title(),
@@ -44,6 +45,7 @@ module.exports = {
             method: call.method().toUpperCase(),
             name: call.parentResource().completeRelativeUri(),
             description: description,
+            query: call.queryParameters().map(this.parseParameter),
             responses: call.responses().map(this.parseResponse, this),
             body: call.body().map((body) => {
                 let description = body.description();
@@ -90,16 +92,22 @@ module.exports = {
     },
 
     parseParameter (parameter) {
-        let description = parameter.description();
+        let description = parameter.description(),
+            example = parameter.example();
+
         if (description) {
             description = description.value();
+        }
+
+        if (example) {
+            example = example.value();
         }
 
         return {
             name: parameter.name(),
             description: description,
             type: parameter.type(),
-            example: parameter.example(),
+            example: example,
             required: parameter.required()
         }
     },
