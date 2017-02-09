@@ -7,12 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/browserify demo/demo.js -o demo/demo.build.js -t [ browserify-cssx ] -t [ babelify --presets [ es2015 react ] ]"
   },
+  "bin": {
+    "leanapi": "./src/index.js"
+  },
   "author": "Bas Tuijnman",
   "license": "MIT",
   "dependencies": {
     "browserify-cssx": "^5.2.0",
     "classnames": "^2.2.5",
+    "commander": "^2.9.0",
     "material-ui": "^0.16.7",
+    "mkdirp": "^0.5.1",
     "raml-1-parser": "^1.1.14",
     "react": "^15.2.1",
     "react-cssx": "^1.1.1",

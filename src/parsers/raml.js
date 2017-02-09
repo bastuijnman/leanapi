@@ -5,8 +5,7 @@ let path = require('path');
 
 module.exports = {
 
-    parse () {
-        let apiPath = path.resolve(__dirname, '../../../smart-ott-api/spec/api.raml');
+    parse (apiPath) {
         let api = parser.loadApiSync(apiPath).expand();
 
         return {
