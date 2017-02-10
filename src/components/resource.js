@@ -14,7 +14,7 @@ module.exports = React.createClass({
         let resource = this.props.resource;
 
         let calls = resource.calls.map((call) => {
-            return <Call call={call} resource={resource} />;
+            return <Call key={call.name} call={call} resource={resource} />;
         });
 
         return (

@@ -21,7 +21,7 @@ module.exports = React.createClass({
                     Body
                     <select className="body-select">
                     {bodies.map((body) => {
-                        return (<option>{body.name}</option>);
+                        return (<option key={body.name}>{body.name}</option>);
                     })}
                     </select>
                 </h4>
