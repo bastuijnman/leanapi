@@ -16,6 +16,11 @@ app
     .option('-o, --output <path>', 'The output folder', './api-docs')
     .parse(process.argv);
 
+if (process.argv.length <= 2) {
+    app.outputHelp();
+    process.exit(0);
+}
+
 let apiPath = path.resolve(process.cwd(), app.args[0]);
 let outputPath = path.resolve(process.cwd(), app.output);
 let result = parser(apiPath);
