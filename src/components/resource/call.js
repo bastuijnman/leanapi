@@ -10,6 +10,7 @@ import { RaisedButton, Paper, Menu, MenuItem } from 'material-ui';
 
 // Internal Components
 import Params from './call/params';
+import Body from './call/body';
 import Responses from './call/responses';
 
 // Styling colors
@@ -51,6 +52,7 @@ module.exports = React.createClass({
                 <Params title="Path Parameters" params={resource.parameters} />
                 <Params title="Query Parameters" params={call.query} />
                 <Params title="Headers" params={call.headers} />
+                <Body bodies={call.body} />
                 <Responses responses={call.responses} />
             </CSSX>
         );
