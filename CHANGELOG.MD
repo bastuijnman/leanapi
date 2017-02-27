@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Nothing yet
+
+## 1.1.0
+
 ### Features
 * Added support for request bodies
 
