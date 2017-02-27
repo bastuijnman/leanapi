@@ -14,6 +14,12 @@ import { githubGist } from 'react-syntax-highlighter/dist/styles';
 githubGist.hljs.padding = '15px';
 githubGist.hljs.margin = '0';
 
+// Mapping of mimetype to highlighter language
+let languages = {
+    'application/json': 'javascript',
+    'text/xml': 'xml'
+};
+
 module.exports = React.createClass({
 
     /**
@@ -57,6 +63,9 @@ module.exports = React.createClass({
         this.setState({
             activeBody: parseInt(menuItem.key, 10)
         });
+
+        // Close our popover after changing
+        this.onRequestPopoverClose();
     },
 
     /**
@@ -100,7 +109,7 @@ module.exports = React.createClass({
                         return (
                             <div style={styles}>
                                 <p>{body.description}</p>
-                                <SyntaxHighlighter language='javascript' style={githubGist}>{body.example}</SyntaxHighlighter>
+                                <SyntaxHighlighter language={languages[body.name]} style={githubGist}>{body.example}</SyntaxHighlighter>
                             </div>
                         );
                     })}
