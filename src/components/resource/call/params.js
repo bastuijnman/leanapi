@@ -6,6 +6,12 @@ import CSSX from 'react-cssx';
 
 module.exports = React.createClass({
 
+    /**
+     * Get a list of all supported parameter tags and use
+     * either the tag key as a value or the actual tag value.
+     *
+     * @param {array} param - Array of parameters
+     */
     getParamTags (param) {
         let keys = ['type', 'required'];
 
@@ -43,7 +49,7 @@ module.exports = React.createClass({
             });
 
             return (
-                <div>
+                <div key={param.name}>
                     <dt>{param.name} {tags}</dt>
                     { param.description ? <dd>{param.description}</dd> : null }
                     { param.example ? <dd className="example"><strong>Example:</strong> {param.example}</dd> : null }

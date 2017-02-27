@@ -2,8 +2,11 @@
 
 ## Unreleased
 
-### New Features
+### Features
 * Added support for request bodies
+
+### Changes
+* Added key property to call parameters
 
 ### Changes
 
