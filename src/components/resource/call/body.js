@@ -108,7 +108,7 @@ module.exports = React.createClass({
 
                         return (
                             <div style={styles}>
-                                <p>{body.description}</p>
+                                <p className="body-description">{body.description}</p>
                                 <SyntaxHighlighter language={languages[body.name]} style={githubGist}>{body.example}</SyntaxHighlighter>
                             </div>
                         );
@@ -126,6 +126,7 @@ module.exports = React.createClass({
             <style>
             h2 { padding-left: 15px; }
             .body-switcher { margin-left: 45px; }
+            .body-description { padding: 15px; margin: 0; }
             </style>
         );
     }
