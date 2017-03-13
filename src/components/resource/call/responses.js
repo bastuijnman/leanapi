@@ -30,7 +30,7 @@ module.exports = React.createClass({
         let responses = this.props.responses,
             examples;
 
-        if (!responses) {
+        if (!responses || !responses.length) {
             examples = [];
         } else {
             examples = responses[0].examples;
@@ -43,6 +43,10 @@ module.exports = React.createClass({
 
     render () {
         let responses;
+
+        if (!this.props.responses.length) {
+            return null;
+        }
 
         // Create list item with all responses
         responses = this.props.responses.map((response) => (
