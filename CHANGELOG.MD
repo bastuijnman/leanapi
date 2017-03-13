@@ -4,6 +4,14 @@
 
 Nothing yet
 
+## 1.1.1
+
+### Changes
+* Updated styling for body descriptions
+
+### Bugfixes
+* Fixed bug where calls with empty responses where not rendered
+
 ## 1.1.0
 
 ### Features
@@ -11,10 +19,6 @@ Nothing yet
 
 ### Changes
 * Added key property to call parameters
-
-### Changes
-
-### Bugfixes
 
 ## 1.0.3
 
