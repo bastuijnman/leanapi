@@ -2,6 +2,9 @@
 
 LeanAPI generates a nice UI for your API specifications.
 
+## Supported API specification formats:
+* [RAML 1.0]( https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/)
+
 ## Usage
 
 Install using the following command:
