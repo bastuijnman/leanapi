@@ -18,6 +18,10 @@ module.exports = {
             process.exit(1);
         }
 
+        api.types().forEach(function (type) {
+            typesMap[type.name()] = type;
+        });
+
         return {
             title: api.title(),
             description: this.getHomepage(api.documentation()),
@@ -104,6 +108,8 @@ module.exports = {
 
     parseJsonSchema (body) {
         let bodyType = body.type()[0];
+
+        // TODO: Also check for JSON schema type
         if (typesMap[bodyType]) {
             return typesMap[bodyType].type()[0];
         }
