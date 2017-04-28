@@ -3,6 +3,10 @@
 let parser = require('raml-1-parser');
 let path = require('path');
 
+const checkIfGetterIsNeeded = function (checkParam) {
+    return checkParam && typeof checkParam === 'object';
+};
+
 module.exports = {
 
     parse (apiPath) {
@@ -19,7 +23,7 @@ module.exports = {
     parseResources (resources) {
         return resources.map((item) => {
             let description = item.description();
-            if (description) {
+            if (checkIfGetterIsNeeded(description) ){
                 description = description.value();
             }
 
@@ -36,7 +40,7 @@ module.exports = {
 
     parseCall (call) {
         let description = call.description();
-        if (description) {
+        if (checkIfGetterIsNeeded(description)) {
             description = description.value();
         }
 
@@ -50,11 +54,11 @@ module.exports = {
                 let description = body.description();
                 let example = body.example();
 
-                if (description) {
+                if (checkIfGetterIsNeeded(description)) {
                     description = description.value();
                 }
 
-                if (example) {
+                if (checkIfGetterIsNeeded(example)) {
                     example = example.value();
                 }
 
@@ -69,7 +73,7 @@ module.exports = {
 
     parseResponse (response) {
         let description = response.description();
-        if (description) {
+        if (checkIfGetterIsNeeded(description)) {
             description = description.value()
         }
 
@@ -94,11 +98,11 @@ module.exports = {
         let description = parameter.description(),
             example = parameter.example();
 
-        if (description) {
+        if (checkIfGetterIsNeeded(description)) {
             description = description.value();
         }
 
-        if (example) {
+        if (checkIfGetterIsNeeded(example)) {
             example = example.value();
         }
 
@@ -120,7 +124,7 @@ module.exports = {
             }
         });
 
-        if (description) {
+        if (checkIfGetterIsNeeded(description)) {
             description = description.value();
         }
 

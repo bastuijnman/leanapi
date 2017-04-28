@@ -6,6 +6,9 @@
 * Added serve & watch functionality
 * Added port chooser for serve & watch
 
+## Changes
+* Added some defensive statements to parser for checking properties
+
 ## 1.1.1
 
 ### Changes
