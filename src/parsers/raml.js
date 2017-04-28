@@ -81,14 +81,25 @@ module.exports = {
             code: response.code().value(),
             description: description,
             examples: response.body().map((body) => {
-                let description = body.description();
+                let description = body.description(),
+                    jsonSchemaContent = body.toJSON().schemaContent;
+
                 if (description) {
                     description = description.value()
                 }
 
+                /*
+                 * Very hacky way to identify whether we have a JSON schema
+                 * TODO: rework this
+                 */
+                if (jsonSchemaContent && jsonSchemaContent.indexOf('json-schema.org') < 0) {
+                    jsonSchemaContent = null;
+                }
+
                 return {
                     description: description,
-                    body: body.example().value()
+                    body: body.example().value(),
+                    jsonSchema: jsonSchemaContent
                 }
             })
         }

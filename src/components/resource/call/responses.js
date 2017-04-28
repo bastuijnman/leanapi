@@ -8,12 +8,7 @@ import CSSX from 'react-cssx';
 import { Paper, List, ListItem } from 'material-ui';
 import { green500, orange500 } from 'material-ui/styles/colors';
 import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { githubGist } from 'react-syntax-highlighter/dist/styles';
-
-// Update styling to
-githubGist.hljs.padding = '15px';
-githubGist.hljs.margin = '0';
+import Example from './responses/example';
 
 // Status code colors
 let statusColors = {
@@ -71,12 +66,7 @@ module.exports = React.createClass({
                         </List>
                     </div>
                     <div style={{width: '75%', float: 'left', maxHeight: '500px', overflow: 'scroll'}}>
-                        {this.state.examples.map((example) => (
-                            <div>
-                                <h3>{example.description}</h3>
-                                <SyntaxHighlighter language='javascript' style={githubGist}>{example.body}</SyntaxHighlighter>
-                            </div>
-                        ))}
+                        {this.state.examples.map((example) => (<Example example={example} />))}
                     </div>
                     <div style={{clear:'both'}} />
                 </Paper>

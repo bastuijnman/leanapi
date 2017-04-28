@@ -2,6 +2,8 @@
 
 const browserify = require('browserify');
 const browserifyCssx = require('browserify-cssx');
+const browserifyShim = require('browserify-shim');
+const browserifyCss = require('browserify-css');
 const babelify = require('babelify');
 
 module.exports = {
@@ -15,10 +17,12 @@ module.exports = {
      */
     getJsBuildStream: function (filename) {
         return browserify(filename)
+            .transform(browserifyCss)
             .transform(browserifyCssx)
             .transform(babelify, {
                 presets: ['es2015', 'react']
             })
+            .transform(browserifyShim)
             .bundle();
     }
 

@@ -32,7 +32,7 @@ module.exports = function (opts = {}) {
                 break;
 
             case '/app.build.js':
-                response.setHeader('Content-Type', 'application/javascript');
+                response.setHeader('Content-Type', 'application/javascript; charset=utf-8');
 
                 // Sucky cache mechanism, try to rework
                 if (typeof responses.js === 'string') {

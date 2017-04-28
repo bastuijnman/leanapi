@@ -5,6 +5,7 @@
 ### Features
 * Added serve & watch functionality
 * Added port chooser for serve & watch
+* Added JSON schema viewer
 
 ## Changes
 * Added some defensive statements to parser for checking properties

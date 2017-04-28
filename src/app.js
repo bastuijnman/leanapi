@@ -23,6 +23,8 @@ const SelectableList = makeSelectable(List);
 import Home from './components/home';
 import Resource from './components/resource';
 
+import './app.css';
+
 class App extends React.Component {
 
     constructor (props) {
