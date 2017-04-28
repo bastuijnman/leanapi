@@ -9,6 +9,8 @@
 
 ## Changes
 * Added some defensive statements to parser for checking properties
+* **BREAKING** Only support RAML 1.0
+* Change schema checker to only support RAML 1.0 types
 
 ## 1.1.1
 

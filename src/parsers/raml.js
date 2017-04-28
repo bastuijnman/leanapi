@@ -2,6 +2,7 @@
 
 let parser = require('raml-1-parser');
 let path = require('path');
+let typesMap = {};
 
 const checkIfGetterIsNeeded = function (checkParam) {
     return checkParam && typeof checkParam === 'object';
@@ -10,7 +11,12 @@ const checkIfGetterIsNeeded = function (checkParam) {
 module.exports = {
 
     parse (apiPath) {
-        let api = parser.loadApiSync(apiPath).expand();
+        let api = parser.loadApiSync(apiPath).expand(true);
+
+        if (api.RAMLVersion() !== 'RAML10') {
+            console.log('Sorry, currently we only support RAML 1.0');
+            process.exit(1);
+        }
 
         return {
             title: api.title(),
@@ -81,28 +87,28 @@ module.exports = {
             code: response.code().value(),
             description: description,
             examples: response.body().map((body) => {
-                let description = body.description(),
-                    jsonSchemaContent = body.toJSON().schemaContent;
+                let description = body.description();
 
                 if (description) {
                     description = description.value()
                 }
 
-                /*
-                 * Very hacky way to identify whether we have a JSON schema
-                 * TODO: rework this
-                 */
-                if (jsonSchemaContent && jsonSchemaContent.indexOf('json-schema.org') < 0) {
-                    jsonSchemaContent = null;
-                }
-
                 return {
                     description: description,
                     body: body.example().value(),
-                    jsonSchema: jsonSchemaContent
+                    jsonSchema: this.parseJsonSchema(body)
                 }
             })
         }
+    },
+
+    parseJsonSchema (body) {
+        let bodyType = body.type()[0];
+        if (typesMap[bodyType]) {
+            return typesMap[bodyType].type()[0];
+        }
+
+        return null;
     },
 
     parseParameter (parameter) {
