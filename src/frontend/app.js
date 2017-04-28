@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 // Components
 import App from '../app';
 
-ReactDOM.render(
+window.LeanApiApp = ReactDOM.render(
   <App />,
   document.getElementById('app')
 );

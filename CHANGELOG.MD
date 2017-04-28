@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-Nothing yet
+### Features
+* Added serve & watch functionality
 
 ## 1.1.1
 

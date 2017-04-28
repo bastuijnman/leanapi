@@ -23,16 +23,28 @@ const SelectableList = makeSelectable(List);
 import Home from './components/home';
 import Resource from './components/resource';
 
-module.exports = React.createClass({
+class App extends React.Component {
 
-    _hashMap: {},
+    constructor (props) {
+        super(props);
 
-    getInitialState () {
-        return {
+        this._routes = (
+            <Router history={hashHistory}>
+                <Route path="/" component={() => (<Home api={this.state.api} />)} />
+                <Route path="/*" component={
+                    (nextState, callback) => {
+                        return <Resource key={nextState.params.splat} resource={this.getResourceByUrl('/' + nextState.params.splat)} />;
+                    }
+                } />
+            </Router>
+        );
+
+        this._hashMap = {};
+        this.state = {
             menu: true,
             api: null
         };
-    },
+    }
 
     componentDidMount () {
         fetch('api.json').then((response) => {
@@ -41,8 +53,8 @@ module.exports = React.createClass({
             this.setState({
                 api: api
             });
-        })
-    },
+        });
+    }
 
     getResourceNav (resources) {
         return resources.map((resource) => {
@@ -66,21 +78,21 @@ module.exports = React.createClass({
                 <ListItem {...props} />
             );
         });
-    },
+    }
 
     getResourceByUrl (url) {
         return this._hashMap[url];
-    },
+    }
 
     onChangeNav () {
         // Test
-    },
+    }
 
     onToggleMenu () {
         this.setState({
             menu: !this.state.menu
         });
-    },
+    }
 
     render () {
         let api = this.state.api;
@@ -100,14 +112,7 @@ module.exports = React.createClass({
                         <AppBar style={{position:'fixed'}} onLeftIconButtonTouchTap={this.onToggleMenu} />
 
                         <div className="page-content" style={{paddingLeft: this.state.menu ? '256px' : '0px'}}>
-                            <Router history={hashHistory}>
-                                <Route path="/" component={() => (<Home api={api} />)} />
-                                <Route path="/*" component={
-                                    (nextState, callback) => (
-                                        <Resource resource={this.getResourceByUrl('/' + nextState.params.splat)} />
-                                    )
-                                } />
-                            </Router>
+                            {this._routes}
                         </div>
 
                         <Drawer open={this.state.menu}>
@@ -118,7 +123,7 @@ module.exports = React.createClass({
                 </MuiThemeProvider>
             </CSSX>
         );
-    },
+    }
 
     css () {
         return (
@@ -130,4 +135,6 @@ module.exports = React.createClass({
         );
     }
 
-});
+};
+
+module.exports = App;

@@ -4,8 +4,7 @@
   "description": "LeanAPI generates a nice UI for your API specifications",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/browserify demo/demo.js -o demo/demo.build.js -t [ browserify-cssx ] -t [ babelify --presets [ es2015 react ] ]"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "leanapi": "./src/index.js"
@@ -30,6 +29,7 @@
     "react-dom": "^15.2.1",
     "react-router": "^3.0.2",
     "react-syntax-highlighter": "^4.0.1",
-    "react-tap-event-plugin": "^2.0.1"
+    "react-tap-event-plugin": "^2.0.1",
+    "socket.io": "^1.7.3"
   }
 }

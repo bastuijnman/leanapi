@@ -6,14 +6,14 @@ let parser = require('./parser');
 let path = require('path');
 let mkdirp = require('mkdirp');
 let fs = require('fs');
-let browserify = require('browserify');
-let browserifyCssx = require('browserify-cssx');
-let babelify = require('babelify');
+let server = require('./server');
+let build = require('./build');
 
 app
     .version('1.0.0')
     .usage('[options] <file>')
     .option('-o, --output <path>', 'The output folder', './api-docs')
+    .option('-s, --serve', 'Whether you want to serve dynamically instead of building', false)
     .parse(process.argv);
 
 if (process.argv.length <= 2) {
@@ -22,6 +22,14 @@ if (process.argv.length <= 2) {
 }
 
 let apiPath = path.resolve(process.cwd(), app.args[0]);
+
+if (app.serve) {
+    let dynamicServer = server({
+        apiPath: apiPath
+    });
+    return;
+}
+
 let outputPath = path.resolve(process.cwd(), app.output);
 let result = parser(apiPath);
 
@@ -48,12 +56,8 @@ mkdirp(outputPath, function (err) {
     });
 
     // Build app JS
-    browserify(__dirname + '/frontend/app.js')
-        .transform(browserifyCssx)
-        .transform(babelify, {
-            presets: ['es2015', 'react']
-        })
-        .bundle()
+    build
+        .getJsBuildStream(__dirname + '/frontend/app.js')
         .pipe(fs.createWriteStream(outputPath + '/app.build.js'));
 
 });
