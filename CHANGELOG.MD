@@ -4,6 +4,7 @@
 
 ### Features
 * Added serve & watch functionality
+* Added port chooser for serve & watch
 
 ## 1.1.1
 

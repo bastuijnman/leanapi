@@ -58,13 +58,13 @@ module.exports = function (opts = {}) {
     const server = http.createServer(handleRequest);
     const io = socketIO(server);
 
-    server.listen(port, (err) => {
+    server.listen(opts.port || port, (err) => {
         if (err) {
             console.log('Something went wrong when trying to start the LeanAPI server');
             process.exit(1);
         }
 
-        console.log(`LeanAPI server is listening on port ${port}`);
+        console.log(`LeanAPI server is listening on port ${server.address().port}`);
     });
 
     fs.watch(path.dirname(opts.apiPath), {

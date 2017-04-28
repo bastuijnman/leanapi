@@ -14,6 +14,7 @@ app
     .usage('[options] <file>')
     .option('-o, --output <path>', 'The output folder', './api-docs')
     .option('-s, --serve', 'Whether you want to serve dynamically instead of building', false)
+    .option('-p, --port [number]', 'Which port you want to use for the dynamic server')
     .parse(process.argv);
 
 if (process.argv.length <= 2) {
@@ -25,7 +26,8 @@ let apiPath = path.resolve(process.cwd(), app.args[0]);
 
 if (app.serve) {
     let dynamicServer = server({
-        apiPath: apiPath
+        apiPath: apiPath,
+        port: app.port
     });
     return;
 }
