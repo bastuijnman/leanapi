@@ -23,6 +23,7 @@
     "classnames": "^2.2.5",
     "commander": "^2.9.0",
     "json-formatter-js": "^2.2.0",
+    "json-schema-deref-sync": "^0.3.3",
     "json-schema-view-js": "^1.0.0",
     "material-ui": "^0.16.7",
     "mkdirp": "^0.5.1",

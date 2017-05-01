@@ -2,6 +2,7 @@
 
 let parser = require('raml-1-parser');
 let path = require('path');
+let schemaDeref = require('json-schema-deref-sync');
 let typesMap = {};
 
 const checkIfGetterIsNeeded = function (checkParam) {
@@ -19,7 +20,14 @@ module.exports = {
         }
 
         api.types().forEach(function (type) {
-            typesMap[type.name()] = type;
+            let typeObj = type.toJSON()[type.name()];
+
+            if (typeObj.typePropertyKind === 'JSON') {
+                let schema = require(path.dirname(apiPath) + '/' + typeObj.schemaPath);
+                typesMap[typeObj.name] = schemaDeref(schema, {
+                    baseFolder: path.dirname(apiPath) + '/' + path.dirname(typeObj.schemaPath)
+                });
+            }
         });
 
         return {
@@ -111,7 +119,7 @@ module.exports = {
 
         // TODO: Also check for JSON schema type
         if (typesMap[bodyType]) {
-            return typesMap[bodyType].type()[0];
+            return typesMap[bodyType];
         }
 
         return null;
