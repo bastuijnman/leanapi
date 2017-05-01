@@ -27,7 +27,7 @@ export default class Schema extends React.Component {
         let node = ReactDOM.findDOMNode(this);
 
         if (node) {
-            node.appendChild((new JSONSchemaView(jsonSchema)).render())
+            node.appendChild((new JSONSchemaView(jsonSchema, 1)).render())
         }
     }
 
