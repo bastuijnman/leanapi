@@ -1,6 +1,9 @@
 # Leanapi Changelog
 
 ## Unreleased
+Nothing yet
+
+## 1.2.0
 
 ### Features
 * Added serve & watch functionality
