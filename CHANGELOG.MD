@@ -5,10 +5,12 @@
 ## Changes
 * Made sure the schema is scrollable when overflowing.
 * Manage component update with props instead of state, which handles updates through the server better.
+* Changed all component syntax to ES6
 
 ### Bugfixes
 * Fixed a bug where when updating the schema the application was not updating the state (while in serve mode).
 * Fixed a bug when reloading did not get the updated API spec document.
+* Fixed a bug where schema's where loaded from NodeJS module cache, now using FS instead for loading.
 
 ## 1.2.2
 
