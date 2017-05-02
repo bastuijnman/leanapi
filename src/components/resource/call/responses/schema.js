@@ -45,6 +45,24 @@ export default class Schema extends React.Component {
         }
     }
 
+    componentDidUpdate () {
+        let jsonSchema = this.state.jsonSchema;
+
+        if (!jsonSchema) {
+            return;
+        }
+
+        let node = ReactDOM.findDOMNode(this);
+
+        if (node) {
+            while (node.firstChild) {
+                node.removeChild(node.firstChild);
+            }
+
+            node.appendChild((new JSONSchemaView(jsonSchema, 1)).render())
+        }
+    }
+
     render () {
         return <div />;
     }

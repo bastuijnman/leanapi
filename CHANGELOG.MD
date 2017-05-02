@@ -1,7 +1,9 @@
 # Leanapi Changelog
 
 ## Unreleased
-Nothing yet
+
+### Bugfixes
+* Fixed a bug where when updating the schema the application was not updating the state (while in serve mode)
 
 ## 1.2.2
 
