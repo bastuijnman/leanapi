@@ -28,13 +28,7 @@ import {
 } from 'material-ui/styles/colors';
 
 // Component
-module.exports = React.createClass({
-
-    getInitialState () {
-        return {
-            activeTabIndex: 0
-        };
-    },
+export default class Call extends React.Component {
 
     render () {
         let call = this.props.call;
@@ -56,7 +50,7 @@ module.exports = React.createClass({
                 <Responses responses={call.responses} />
             </CSSX>
         );
-    },
+    }
 
     css () {
         return (
@@ -108,4 +102,4 @@ module.exports = React.createClass({
         );
     }
 
-});
+};

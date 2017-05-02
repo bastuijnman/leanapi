@@ -8,7 +8,7 @@ import CSSX from 'react-cssx';
 import Call from './resource/call';
 import Params from './resource/call/params';
 
-module.exports = React.createClass({
+export default class Resource extends React.Component {
 
     render () {
         let resource = this.props.resource;
@@ -29,7 +29,7 @@ module.exports = React.createClass({
                 </div>
             </CSSX>
         );
-    },
+    }
 
     css () {
         return (
@@ -45,4 +45,4 @@ module.exports = React.createClass({
         );
     }
 
-});
+};

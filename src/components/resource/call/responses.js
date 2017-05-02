@@ -11,7 +11,7 @@ import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checke
 import Example from './responses/example';
 
 // Status code colors
-let statusColors = {
+const statusColors = {
     // 2XX status codes
     2: green500,
 
@@ -19,7 +19,7 @@ let statusColors = {
     4: orange500
 }
 
-module.exports = React.createClass({
+export default class Responses extends React.Component {
 
     getExamples () {
         let responses = this.props.responses,
@@ -28,11 +28,19 @@ module.exports = React.createClass({
         if (!responses || !responses.length) {
             examples = [];
         } else {
-            examples = responses[0].examples;
+            examples = responses[this.state.activeResponseIndex].examples;
         }
 
         return examples;
-    },
+    }
+
+    constructor (props) {
+        super(props);
+
+        this.state = {
+            activeResponseIndex: 0
+        };
+    }
 
     render () {
         let responses;
@@ -42,13 +50,13 @@ module.exports = React.createClass({
         }
 
         // Create list item with all responses
-        responses = this.props.responses.map((response) => (
+        responses = this.props.responses.map((response, index) => (
             <ListItem
                 leftIcon={<RadioButtonChecked color={statusColors[response.code.substring(0, 1)]} />}
                 primaryText={response.code}
                 onClick={() => {
                     this.setState({
-                        examples: response.examples
+                        activeResponseIndex: index
                     });
                 }}
             />
@@ -70,7 +78,7 @@ module.exports = React.createClass({
                 </Paper>
             </CSSX>
         );
-    },
+    }
 
     css () {
         return (
@@ -81,4 +89,4 @@ module.exports = React.createClass({
         );
     }
 
-});
+};
