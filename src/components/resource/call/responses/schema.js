@@ -3,9 +3,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Looks awful. Couldn't find a better way to do it at the moment, but there should be a better way
-import './../../../../../node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js';
-import JSONSchemaView from './../../../../../node_modules/json-schema-view-js/dist/bundle.min.js';
+/*
+ * JSON Schema View library, it needs the JSON formatter library to
+ * work. This adds an object to the window scope.
+ */
+import JSONFormatter from 'JSONFormatter';
+import JSONSchemaView from 'JSONSchemaView';
 
 export default class Schema extends React.Component {
 

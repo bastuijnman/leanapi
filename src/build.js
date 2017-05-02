@@ -4,6 +4,7 @@ const browserify = require('browserify');
 const browserifyCssx = require('browserify-cssx');
 const browserifyCss = require('browserify-css');
 const babelify = require('babelify');
+const path = require('path');
 
 module.exports = {
 
@@ -15,20 +16,25 @@ module.exports = {
      * @returns {fs.ReadStream} - The read file stream.
      */
     getJsBuildStream: function (filename) {
-        return browserify(filename, {
-            noParse: [
-                require.resolve(__dirname + '/../node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js'),
-                require.resolve(__dirname + '/../node_modules/json-schema-view-js/dist/bundle.min.js')
-            ]
-        })
-            .require([
-                require.resolve(__dirname + '/../node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js'),
-                require.resolve(__dirname + '/../node_modules/json-schema-view-js/dist/bundle.min.js')
-            ])
-            .transform(browserifyCss)
-            .transform(browserifyCssx)
-            .transform(babelify, {
+        return browserify({
+                entries: [
+                    filename
+                ],
+                noParse: [
+                    path.resolve('./node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js'),
+                    path.resolve('./node_modules/json-schema-view-js/dist/bundle.js')
+                ]
+            })
+            .transform('browserify-css')
+            .transform('browserify-cssx')
+            .transform('babelify', {
                 presets: ['es2015', 'react']
+            })
+            .require('./node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js', {
+                expose: 'JSONFormatter'
+            })
+            .require('./node_modules/json-schema-view-js/dist/bundle.js', {
+                expose: 'JSONSchemaView'
             })
             .bundle();
     }
