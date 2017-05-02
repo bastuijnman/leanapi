@@ -73,6 +73,9 @@ module.exports = function (opts = {}) {
     }, () => {
         let api = parser(opts.apiPath);
         io.emit('changed', api);
+
+        // Update our cached response value
+        responses.api = api;
     });
 
     return server;
