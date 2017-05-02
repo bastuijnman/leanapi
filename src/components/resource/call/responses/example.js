@@ -52,6 +52,7 @@ class Example extends React.Component {
                     onRequestClose={this.onHandleClose.bind(this)}
                     autoScrollBodyContent={true}
                     bodyStyle={{padding: '24px'}}
+                    contentStyle={{maxWidth:'auto', width: '85%'}}
                 >
                     <Schema jsonSchema={example.jsonSchema} />
                 </Dialog>
