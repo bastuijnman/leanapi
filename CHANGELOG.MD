@@ -6,6 +6,7 @@
 * Made sure the schema is scrollable when overflowing.
 * Manage component update with props instead of state, which handles updates through the server better.
 * Changed all component syntax to ES6
+* Increased font-size for schema viewer to 16px
 
 ### Bugfixes
 * Fixed a bug where when updating the schema the application was not updating the state (while in serve mode).
