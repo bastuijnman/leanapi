@@ -3,6 +3,11 @@
 ## Unreleased
 Nothing yet
 
+## 1.2.1
+
+### Bugfixes
+* Fixed a bug where the JSON schema view library could not be loaded during build time.
+
 ## 1.2.0
 
 ### Features

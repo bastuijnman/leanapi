@@ -1,6 +1,6 @@
 {
   "name": "leanapi",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "LeanAPI generates a nice UI for your API specifications",
   "main": "index.js",
   "scripts": {
