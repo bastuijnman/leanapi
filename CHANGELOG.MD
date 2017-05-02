@@ -2,8 +2,11 @@
 
 ## Unreleased
 
+## Changes
+* Made sure the schema is scrollable when overflowing.
+
 ### Bugfixes
-* Fixed a bug where when updating the schema the application was not updating the state (while in serve mode)
+* Fixed a bug where when updating the schema the application was not updating the state (while in serve mode).
 
 ## 1.2.2
 

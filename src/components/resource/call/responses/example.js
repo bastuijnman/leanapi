@@ -51,6 +51,8 @@ class Example extends React.Component {
                     modal={false}
                     open={this.state.jsonSchemaViewerOpen}
                     onRequestClose={this.onHandleClose.bind(this)}
+                    autoScrollBodyContent={true}
+                    bodyStyle={{padding: '24px'}}
                 >
                     <Schema jsonSchema={example.jsonSchema} />
                 </Dialog>
