@@ -21,7 +21,7 @@ let statusColors = {
 
 module.exports = React.createClass({
 
-    getInitialState() {
+    getExamples () {
         let responses = this.props.responses,
             examples;
 
@@ -31,9 +31,7 @@ module.exports = React.createClass({
             examples = responses[0].examples;
         }
 
-        return {
-            examples: examples
-        }
+        return examples;
     },
 
     render () {
@@ -66,7 +64,7 @@ module.exports = React.createClass({
                         </List>
                     </div>
                     <div style={{width: '75%', float: 'left', maxHeight: '500px', overflow: 'scroll'}}>
-                        {this.state.examples.map((example) => (<Example example={example} />))}
+                        {this.getExamples().map((example) => (<Example example={example} />))}
                     </div>
                     <div style={{clear:'both'}} />
                 </Paper>

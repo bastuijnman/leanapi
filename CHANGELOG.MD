@@ -4,6 +4,7 @@
 
 ## Changes
 * Made sure the schema is scrollable when overflowing.
+* Manage component update with props instead of state, which handles updates through the server better.
 
 ### Bugfixes
 * Fixed a bug where when updating the schema the application was not updating the state (while in serve mode).

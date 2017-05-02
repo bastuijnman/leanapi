@@ -12,16 +12,8 @@ import JSONSchemaView from 'JSONSchemaView';
 
 export default class Schema extends React.Component {
 
-    constructor (props) {
-        super(props);
-
-        this.state = {
-            jsonSchema: props.jsonSchema
-        };
-    }
-
     componentDidMount () {
-        let jsonSchema = this.state.jsonSchema;
+        let jsonSchema = this.props.jsonSchema;
 
         if (!jsonSchema) {
             return;
@@ -46,7 +38,7 @@ export default class Schema extends React.Component {
     }
 
     componentDidUpdate () {
-        let jsonSchema = this.state.jsonSchema;
+        let jsonSchema = this.props.jsonSchema;
 
         if (!jsonSchema) {
             return;

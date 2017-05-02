@@ -21,7 +21,6 @@ class Example extends React.Component {
         super(props);
 
         this.state = {
-            example: props.example,
             jsonSchemaViewerOpen: false
         }
     }
@@ -39,7 +38,7 @@ class Example extends React.Component {
     }
 
     render () {
-        let example = this.state.example,
+        let example = this.props.example,
             openJsonSchemaButton = null,
             jsonSchemaDialog = null;
 
