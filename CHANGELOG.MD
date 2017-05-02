@@ -1,7 +1,9 @@
 # Leanapi Changelog
 
 ## Unreleased
-Nothing yet
+
+### Bugfixes
+* Fixed a similar bug to the last one where CSS inclusion was going wrong on build time.
 
 ## 1.2.1
 
