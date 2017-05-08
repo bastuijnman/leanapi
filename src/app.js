@@ -14,14 +14,11 @@ injectTapEventPlugin();
 // Components
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
-
-// Create the SelectableList component
-const SelectableList = makeSelectable(List);
 
 // Internal components
 import Home from './components/home';
 import Resource from './components/resource';
+import Nav from './components/nav';
 
 import './app.css';
 
@@ -48,46 +45,31 @@ class App extends React.Component {
         };
     }
 
+    setupHashMap (resources) {
+        resources.forEach((resource) => {
+            this._hashMap[resource.url] = resource;
+
+            if (resource.children && resource.children.length > 0) {
+                this.setupHashMap(resource.children);
+            }
+        })
+    }
+
     componentDidMount () {
         fetch('api.json').then((response) => {
             return response.json();
         }).then((api) => {
+            this._hashMap = {};
+            this.setupHashMap(api.resources);
+
             this.setState({
                 api: api
             });
         });
     }
 
-    getResourceNav (resources) {
-        return resources.map((resource) => {
-
-            let children = this.getResourceNav(resource.children);
-            let props = {
-                primaryText: resource.name,
-                value: resource.name,
-                key: resource.name,
-                href: '#' + resource.url
-            };
-
-            this._hashMap[resource.url] = resource;
-
-            if (children.length > 0) {
-                props.nestedItems = this.getResourceNav(resource.children);
-                props.primaryTogglesNestedList = true;
-            }
-
-            return (
-                <ListItem {...props} />
-            );
-        });
-    }
-
     getResourceByUrl (url) {
         return this._hashMap[url];
-    }
-
-    onChangeNav () {
-        // Test
     }
 
     onToggleMenu () {
@@ -103,9 +85,6 @@ class App extends React.Component {
             return null;
         }
 
-        // Create resource navigation
-        let list = this.getResourceNav(api.resources);
-
         // Render actual application
         return (
             <CSSX styles={this.css()}>
@@ -119,7 +98,7 @@ class App extends React.Component {
 
                         <Drawer open={this.state.menu}>
                             <AppBar onLeftIconButtonTouchTap={this.onToggleMenu} />
-                            <SelectableList onChange={this.onChangeNav}>{list}</SelectableList>
+                            <Nav resources={api.resources} />
                         </Drawer>
                     </div>
                 </MuiThemeProvider>
