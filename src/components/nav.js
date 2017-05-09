@@ -14,6 +14,18 @@ export default class Nav extends React.Component {
      */
     constructor (props) {
         super(props);
+
+        this.state = {
+            activeHref: window.location.hash
+        };
+
+        this.onHashChangeBound = this.onHashChange.bind(this);
+        window.addEventListener('hashchange', this.onHashChangeBound);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('hashchange', this.onHashChangeBound);
+        this.onHashChangeBound = null;
     }
 
     /**
@@ -33,6 +45,13 @@ export default class Nav extends React.Component {
                 href: '#' + resource.url
             };
 
+            if (this.state.activeHref === props.href) {
+                props.style = {
+                    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+                    background: 'rgba(0, 0, 0, 0.025)'
+                }
+            }
+
             if (resource.children.length > 0) {
                 props.nestedItems = this.getNavItems(resource.children);
                 props.primaryTogglesNestedList = true;
@@ -41,6 +60,20 @@ export default class Nav extends React.Component {
             return (
                 <ListItem {...props} />
             );
+        });
+    }
+
+    /**
+     * Handles setting the correct active href when the window
+     * hash changes (on navigation).
+     *
+     * This will break when not using the Hash route method.
+     *
+     * @todo Handle navigation within the Routes component
+     */
+    onHashChange () {
+        this.setState({
+            activeHref: window.location.hash
         });
     }
 

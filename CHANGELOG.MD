@@ -8,7 +8,8 @@
 * Changed all component syntax to ES6.
 * Increased font-size for schema viewer to 16px.
 * Increased default width for schema dialog.
-* Moved API navigation to it's own component
+* Moved API navigation to it's own component.
+* Add active state for Nav items.
 
 ### Bugfixes
 * Fixed a bug where when updating the schema the application was not updating the state (while in serve mode).
