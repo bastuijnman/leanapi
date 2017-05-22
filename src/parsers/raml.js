@@ -53,7 +53,7 @@ module.exports = {
                 name: item.displayName(),
                 description: description,
                 url: item.completeRelativeUri(),
-                parameters: item.absoluteUriParameters().map(this.parseParameter, this),
+                parameters: item.absoluteUriParameters().map(this.parseTypeDeclaration, this),
                 calls: item.methods().map(this.parseCall, this),
                 children: this.parseResources(item.resources())
             };
@@ -70,7 +70,8 @@ module.exports = {
             method: call.method().toUpperCase(),
             name: call.parentResource().completeRelativeUri(),
             description: description,
-            query: call.queryParameters().map(this.parseParameter),
+            query: call.queryParameters().map(this.parseTypeDeclaration),
+            headers: call.headers().map(this.parseTypeDeclaration),
             responses: call.responses().map(this.parseResponse, this),
             body: call.body().map((body) => {
                 let description = body.description();
@@ -102,6 +103,7 @@ module.exports = {
         return {
             code: response.code().value(),
             description: description,
+            headers: response.headers().map(this.parseTypeDeclaration),
             examples: response.body().map((body) => {
                 let description = body.description();
 
@@ -129,7 +131,7 @@ module.exports = {
         return null;
     },
 
-    parseParameter (parameter) {
+    parseTypeDeclaration (parameter) {
         let description = parameter.description(),
             example = parameter.example();
 

@@ -9,6 +9,7 @@ import { Paper, List, ListItem } from 'material-ui';
 import { green500, orange500 } from 'material-ui/styles/colors';
 import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
 import Example from './responses/example';
+import Params from './params';
 
 // Status code colors
 const statusColors = {
@@ -29,6 +30,19 @@ export default class Responses extends React.Component {
             examples = [];
         } else {
             examples = responses[this.state.activeResponseIndex].examples;
+        }
+
+        return examples;
+    }
+
+    getHeaders () {
+        let responses = this.props.responses,
+            examples;
+
+        if (!responses || !responses.length) {
+            examples = [];
+        } else {
+            examples = responses[this.state.activeResponseIndex].headers || [];
         }
 
         return examples;
@@ -66,12 +80,15 @@ export default class Responses extends React.Component {
             <CSSX styles={this.css()}>
                 <h2>Responses</h2>
                 <Paper>
-                    <div style={{width: '25%', float: 'left'}}>
+                    <div className="responses-nav">
                         <List>
                             {responses}
                         </List>
                     </div>
-                    <div style={{width: '75%', float: 'left', maxHeight: '500px', overflow: 'scroll'}}>
+                    <div className="responses-content">
+                        <Params title="Headers" params={this.getHeaders()} />
+
+                        <h2>Bodies</h2>
                         {this.getExamples().map((example) => (<Example example={example} />))}
                     </div>
                     <div style={{clear:'both'}} />
@@ -85,6 +102,22 @@ export default class Responses extends React.Component {
             <style>
                 h2 { padding-left: 15px; }
                 h3 { padding-left: 15px; }
+
+                .responses-nav {
+                    width: 25%;
+                    float: left;
+                }
+
+                .responses-content {
+                    width: 75%;
+                    float: left;
+                    max-height: 500px;
+                    overflow: scroll;
+                }
+
+                .params h2 {
+                    padding-left: 0;
+                }
             </style>
         );
     }

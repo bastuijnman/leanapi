@@ -2,7 +2,10 @@
 
 ## Unreleased
 
-## Changes
+### Features
+* Added basic support for request/response headers
+
+### Changes
 * Made sure the schema is scrollable when overflowing.
 * Manage component update with props instead of state, which handles updates through the server better.
 * Changed all component syntax to ES6.
