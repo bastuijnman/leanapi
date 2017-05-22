@@ -1,10 +1,13 @@
 # Leanapi Changelog
 
 ## Unreleased
+Nothing yet
+
+## 1.3.0
 
 ### Features
-* Added basic support for request/response headers
-* Added support for headers/responses from security schemes
+* Added basic support for request/response headers.
+* Added support for headers/responses from security schemes.
 
 ### Changes
 * Made sure the schema is scrollable when overflowing.
