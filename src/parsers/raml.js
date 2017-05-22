@@ -10,6 +10,28 @@ const checkIfGetterIsNeeded = function (checkParam) {
     return checkParam && typeof checkParam === 'object';
 };
 
+let getRequestHeaders = function (request, callback) {
+    let headers = [].concat(request.headers());
+
+    request.securedBy().forEach((scheme) => {
+        headers = headers.concat(scheme.securityScheme().describedBy().headers());
+    });
+
+    return headers.map(callback);
+};
+
+let getRequestResponses = function (request, callback) {
+    let responses = [].concat(request.responses());
+
+    request.securedBy().forEach((scheme) => {
+        responses = responses.concat(scheme.securityScheme().describedBy().responses());
+    });
+
+    return responses.map(callback).sort(function (a, b) {
+        return a.code - b.code;
+    });
+};
+
 module.exports = {
 
     parse (apiPath) {
@@ -22,7 +44,6 @@ module.exports = {
 
         // Reset the types map on parse
         typesMap = {};
-
         api.types().forEach(function (type) {
             let typeObj = type.toJSON()[type.name()];
 
@@ -71,8 +92,8 @@ module.exports = {
             name: call.parentResource().completeRelativeUri(),
             description: description,
             query: call.queryParameters().map(this.parseTypeDeclaration),
-            headers: call.headers().map(this.parseTypeDeclaration),
-            responses: call.responses().map(this.parseResponse, this),
+            headers: getRequestHeaders(call, this.parseTypeDeclaration),
+            responses: getRequestResponses(call, this.parseResponse.bind(this)),
             body: call.body().map((body) => {
                 let description = body.description();
                 let example = body.example();
