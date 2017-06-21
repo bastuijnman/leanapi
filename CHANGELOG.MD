@@ -1,7 +1,9 @@
 # Leanapi Changelog
 
 ## Unreleased
-Nothing yet
+
+### Bugfixes
+* Fixed a bug where serving a spec with a security scheme which doesnt contain a body killed the dev server. Added a warning when occiring.
 
 ## 1.3.0
 
