@@ -14,6 +14,10 @@ let getRequestHeaders = function (request, callback) {
     let headers = [].concat(request.headers());
 
     request.securedBy().forEach((scheme) => {
+        if (!scheme.securityScheme()) {
+            console.log('WARNING: Detected security scheme without body while adding headers.');
+            return;
+        }
         headers = headers.concat(scheme.securityScheme().describedBy().headers());
     });
 
@@ -24,6 +28,10 @@ let getRequestResponses = function (request, callback) {
     let responses = [].concat(request.responses());
 
     request.securedBy().forEach((scheme) => {
+        if (!scheme.securityScheme()) {
+            console.log('WARNING: Detected security scheme without body while adding responses.');
+            return;
+        }
         responses = responses.concat(scheme.securityScheme().describedBy().responses());
     });
 
