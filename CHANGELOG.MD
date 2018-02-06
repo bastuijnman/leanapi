@@ -3,6 +3,11 @@
 ## Unreleased
 Nothing yet
 
+## 1.4.0
+
+### Features
+* Added support for JSON Schema in request bodies.
+
 ## 1.3.1
 
 ### Bugfixes
