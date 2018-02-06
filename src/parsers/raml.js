@@ -117,7 +117,8 @@ module.exports = {
                 return {
                     name: body.name(),
                     description: description,
-                    example: example
+                    example: example,
+                    jsonSchema: this.parseJsonSchema(body)
                 }
             })
         };

@@ -8,7 +8,7 @@ import CSSX from 'react-cssx';
 import { Paper, List, ListItem } from 'material-ui';
 import { green500, orange500 } from 'material-ui/styles/colors';
 import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
-import Example from './responses/example';
+import Example from './example';
 import Params from './params';
 
 // Status code colors

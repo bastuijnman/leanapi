@@ -7,8 +7,8 @@ import CSSX from 'react-cssx';
 // Components
 import { Paper, RaisedButton, Popover, Menu, MenuItem } from 'material-ui';
 import IconExpandMore from 'material-ui/svg-icons/navigation/expand-more';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 import { githubGist } from 'react-syntax-highlighter/dist/styles';
+import Example from './example';
 
 // Update styling to
 githubGist.hljs.padding = '15px';
@@ -107,9 +107,14 @@ module.exports = React.createClass({
                         let styles = index === this.state.activeBody ? {} : { display: 'none' };
 
                         return (
-                            <div style={styles}>
-                                <p className="body-description">{body.description}</p>
-                                <SyntaxHighlighter language={languages[body.name]} style={githubGist}>{body.example}</SyntaxHighlighter>
+                            <div style={styles} key={index}>
+                                <Example example={{
+
+                                    // For now transform the body into an example object
+                                    description: body.description,
+                                    body: body.example,
+                                    jsonSchema: body.jsonSchema
+                                }} />
                             </div>
                         );
                     })}
@@ -125,8 +130,8 @@ module.exports = React.createClass({
         return (
             <style>
             h2 { padding-left: 15px; }
+            h3 { padding: 15px 15px 0px 15px; }
             .body-switcher { margin-left: 45px; }
-            .body-description { padding: 15px; margin: 0; }
             </style>
         );
     }
