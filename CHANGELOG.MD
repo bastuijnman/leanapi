@@ -6,6 +6,9 @@
 * Removed CSSX from components.
 * Made body examples optional.
 
+### Bugfixes
+* Fixed issues detected by `npm audit`.
+
 ## 1.4.0
 
 ### Features
