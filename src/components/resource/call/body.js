@@ -24,11 +24,10 @@ const styles = {
 
 class Body extends React.Component {
 
-    /**
-     * Get the initial state of the body component
-     */
-    getInitialState () {
-        return {
+    constructor (props) {
+        super(props);
+
+        this.state = {
             activeBody: 0,
             popoverOpen: false
         };

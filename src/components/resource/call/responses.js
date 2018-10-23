@@ -78,6 +78,7 @@ export default class Responses extends React.Component {
         // Create list item with all responses
         responses = this.props.responses.map((response, index) => (
             <ListItem
+                key={index}
                 leftIcon={<RadioButtonChecked color={statusColors[response.code.substring(0, 1)]} />}
                 primaryText={response.code}
                 onClick={() => {
@@ -101,7 +102,7 @@ export default class Responses extends React.Component {
                         <Params title="Headers" params={this.getHeaders()} />
 
                         <h2 style={{ paddingLeft: '15px' }}>Bodies</h2>
-                        {this.getExamples().map((example) => (<Example example={example} />))}
+                        {this.getExamples().map((example, index) => (<Example key={index} example={example} />))}
                     </div>
                     <div style={{clear:'both'}} />
                 </Paper>

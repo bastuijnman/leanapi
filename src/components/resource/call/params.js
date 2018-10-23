@@ -65,7 +65,7 @@ class Params extends React.Component {
         let rendered = params.map((param) => {
 
             let tags = this.getParamTags(param).map((tag) => {
-                return <span style={styles.dtSpan}>{tag}</span>;
+                return <span key={tag} style={styles.dtSpan}>{tag}</span>;
             });
 
             return (
