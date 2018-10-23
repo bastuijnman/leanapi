@@ -2,11 +2,6 @@
 
 // Base libraries
 import React from 'react';
-import CSSX from 'react-cssx';
-import classNames from 'classnames';
-
-// Components
-import { RaisedButton, Paper, Menu, MenuItem } from 'material-ui';
 
 // Internal Components
 import Params from './call/params';
@@ -27,6 +22,46 @@ import {
     teal50
 } from 'material-ui/styles/colors';
 
+const callHeaderStyle = {
+    borderTop: '1px solid rgba(0,0,0,0.05)',
+    borderBottom: '1px solid rgba(0,0,0,0.05)',
+    background: 'rgba(0,0,0,0.03)',
+    padding: '15px 15px 0 15px',
+    overflow: 'hidden'
+};
+
+const callMethodStyleMap = {
+    get: {
+        background: lightGreen500,
+        color: lightGreen50
+    },
+    delete: {
+        background: red500,
+        color: red50
+    },
+    put: {
+        background: amber500,
+        color: amber50
+    },
+    post: {
+        background: lightBlue500,
+        color: lightBlue50
+    },
+    patch: {
+        background: teal500,
+        color: teal50
+    }
+}
+
+const getCallMethodStyle = (method) => {
+    return Object.assign({
+        display: 'inline-block',
+        padding: '5px 15px',
+        borderRadius: '3px',
+        marginRight: '15px'
+    }, callMethodStyleMap[method]);
+};
+
 // Component
 export default class Call extends React.Component {
 
@@ -35,10 +70,10 @@ export default class Call extends React.Component {
         let resource = this.props.resource;
 
         return (
-            <CSSX styles={this.css()}>
-                <div className="call-header">
+            <div>
+                <div style={callHeaderStyle}>
                     <h2>
-                        <span className={classNames('request', call.method.toLowerCase())}>{call.method}</span> {call.name}
+                        <span style={getCallMethodStyle(call.method.toLowerCase())}>{call.method}</span> {call.name}
                     </h2>
                     <p>{call.description}</p>
                 </div>
@@ -48,57 +83,7 @@ export default class Call extends React.Component {
                 <Params title="Headers" params={call.headers} />
                 <Body bodies={call.body} />
                 <Responses responses={call.responses} />
-            </CSSX>
-        );
-    }
-
-    css () {
-        return (
-            <style>
-                .call-header {
-                    border-top: 1px solid rgba(0,0,0,0.05);
-                    border-bottom: 1px solid rgba(0,0,0,0.05);
-                    background: rgba(0,0,0,0.03);
-                    padding: 15px 15px 0 15px;
-                    overflow: hidden;
-                }
-
-                .request {
-                    display: inline-block;
-                    padding: 5px 15px;
-                    border-radius: 3px;
-                    margin-right: 15px;
-                }
-
-                .request.get {
-                    background: {{lightGreen500}};
-                    color: {{lightGreen50}};
-                }
-
-                .request.delete {
-                    background: {{red500}};
-                    color: {{red50}};
-                }
-
-                .request.put {
-                    background: {{amber500}};
-                    color: {{amber50}};
-                }
-
-                .request.post {
-                    background: {{lightBlue500}};
-                    color: {{lightBlue50}};
-                }
-
-                .request.patch {
-                    background: {{teal500}};
-                    color: {{teal50}};
-                }
-
-                .body-select {
-                    margin-left: 25px;
-                }
-            </style>
+            </div>
         );
     }
 

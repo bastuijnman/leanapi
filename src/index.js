@@ -25,11 +25,10 @@ if (process.argv.length <= 2) {
 let apiPath = path.resolve(process.cwd(), app.args[0]);
 
 if (app.serve) {
-    let dynamicServer = server({
+    return server({
         apiPath: apiPath,
         port: app.port
     });
-    return;
 }
 
 let outputPath = path.resolve(process.cwd(), app.output);

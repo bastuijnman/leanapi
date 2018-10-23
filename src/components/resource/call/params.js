@@ -2,9 +2,29 @@
 
 // Base libraries
 import React from 'react';
-import CSSX from 'react-cssx';
 
-module.exports = React.createClass({
+const styles = {
+    dt: {
+        marginBottom: '10px',
+        paddingBottom: '10px',
+        borderBottom: '1px solid rgba(0,0,0, 0.1)'
+    },
+    dtSpan: {
+        color: 'rgba(0, 0, 0, 0.5)',
+        fontStyle: 'italic',
+        display: 'inline-block',
+        margin: '0 10px'
+    },
+    dd: {
+        marginBottom: '15px'
+    },
+    ddExample: {
+        color: 'rgba(0, 0, 0, 0.5)',
+        fontStyle: 'italic'
+    }
+}
+
+class Params extends React.Component {
 
     /**
      * Get a list of all supported parameter tags and use
@@ -32,7 +52,7 @@ module.exports = React.createClass({
         }).filter((tag) => {
             return tag !== null;
         });
-    },
+    }
 
     render () {
 
@@ -45,41 +65,29 @@ module.exports = React.createClass({
         let rendered = params.map((param) => {
 
             let tags = this.getParamTags(param).map((tag) => {
-                return <span>{tag}</span>;
+                return <span key={tag} style={styles.dtSpan}>{tag}</span>;
             });
 
             return (
                 <div key={param.name}>
-                    <dt>{param.name} {tags}</dt>
-                    { param.description ? <dd>{param.description}</dd> : null }
-                    { param.example ? <dd className="example"><strong>Example:</strong> {param.example}</dd> : null }
+                    <dt style={styles.dt}>{param.name} {tags}</dt>
+                    { param.description ? <dd style={styles.dd}>{param.description}</dd> : null }
+                    { param.example ? <dd style={Object.assign({}, styles.dd, styles.ddExample)}><strong>Example:</strong> {param.example}</dd> : null }
                 </div>
             );
 
         });
 
         return (
-            <CSSX styles={this.css()}>
-                <div className="params">
-                    <h2>{this.props.title}</h2>
-                    <dl>
-                        {rendered}
-                    </dl>
-                </div>
-            </CSSX>
-        );
-    },
-
-    css () {
-        return (
-            <style>
-            .params { padding-left: 15px; }
-            dl dt { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0, 0.1); }
-            dl dt span { color: rgba(0, 0, 0, 0.5); font-style: italic; display: inline-block; margin: 0 10px; }
-            dl dd { margin-bottom: 15px; }
-            dl dd.example { color: rgba(0, 0, 0, 0.5); font-style: italic;}
-            </style>
+            <div style={{ paddingLeft: '15px' }}>
+                <h2>{this.props.title}</h2>
+                <dl>
+                    {rendered}
+                </dl>
+            </div>
         );
     }
 
-});
+}
+
+export default Params;

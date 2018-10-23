@@ -3,7 +3,6 @@
 // Base libraries
 import React from 'react';
 import { Router, Route, hashHistory } from 'react-router';
-import CSSX from 'react-cssx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DefaultTheme from './themes/default';
 
@@ -87,32 +86,20 @@ class App extends React.Component {
 
         // Render actual application
         return (
-            <CSSX styles={this.css()}>
-                <MuiThemeProvider muiTheme={DefaultTheme}>
-                    <div>
-                        <AppBar style={{position:'fixed'}} onLeftIconButtonTouchTap={this.onToggleMenu} />
+            <MuiThemeProvider muiTheme={DefaultTheme}>
+                <div>
+                    <AppBar style={{position:'fixed'}} onLeftIconButtonTouchTap={this.onToggleMenu} />
 
-                        <div className="page-content" style={{paddingLeft: this.state.menu ? '256px' : '0px'}}>
-                            {this._routes}
-                        </div>
-
-                        <Drawer open={this.state.menu}>
-                            <AppBar onLeftIconButtonTouchTap={this.onToggleMenu} />
-                            <Nav resources={api.resources} />
-                        </Drawer>
+                    <div style={{padding: '64px 0 0 256px', paddingLeft: this.state.menu ? '256px' : '0px'}}>
+                        {this._routes}
                     </div>
-                </MuiThemeProvider>
-            </CSSX>
-        );
-    }
 
-    css () {
-        return (
-            <style>
-                .page-content {
-                    padding: 64px 0 0 256px;
-                }
-            </style>
+                    <Drawer open={this.state.menu}>
+                        <AppBar onLeftIconButtonTouchTap={this.onToggleMenu} />
+                        <Nav resources={api.resources} />
+                    </Drawer>
+                </div>
+            </MuiThemeProvider>
         );
     }
 
