@@ -2,7 +2,6 @@
 
 // Base libraries
 import React from 'react';
-import CSSX from 'react-cssx';
 
 // Components
 import { Paper, List, ListItem } from 'material-ui';
@@ -18,6 +17,19 @@ const statusColors = {
 
     // 4XX status codes
     4: orange500
+}
+
+const styles = {
+    nav: {
+        width: '25%',
+        float: 'left'
+    },
+    content: {
+        width: '75%',
+        float: 'left',
+        maxHeight: '500px',
+        overflow: 'scroll',
+    }
 }
 
 export default class Responses extends React.Component {
@@ -77,48 +89,23 @@ export default class Responses extends React.Component {
         ));
 
         return (
-            <CSSX styles={this.css()}>
-                <h2>Responses</h2>
+            <div>
+                <h2 style={{ paddingLeft: '15px' }}>Responses</h2>
                 <Paper>
-                    <div className="responses-nav">
+                    <div style={styles.nav}>
                         <List>
                             {responses}
                         </List>
                     </div>
-                    <div className="responses-content">
+                    <div style={styles.content}>
                         <Params title="Headers" params={this.getHeaders()} />
 
-                        <h2>Bodies</h2>
+                        <h2 style={{ paddingLeft: '15px' }}>Bodies</h2>
                         {this.getExamples().map((example) => (<Example example={example} />))}
                     </div>
                     <div style={{clear:'both'}} />
                 </Paper>
-            </CSSX>
-        );
-    }
-
-    css () {
-        return (
-            <style>
-                h2 { padding-left: 15px; }
-                h3 { padding-left: 15px; }
-
-                .responses-nav {
-                    width: 25%;
-                    float: left;
-                }
-
-                .responses-content {
-                    width: 75%;
-                    float: left;
-                    max-height: 500px;
-                    overflow: scroll;
-                }
-
-                .params h2 {
-                    padding-left: 0;
-                }
-            </style>
+            </div>
         );
     }
 

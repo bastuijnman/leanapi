@@ -2,7 +2,6 @@
 
 // Base Libraries
 import React from 'react';
-import CSSX from 'react-cssx';
 
 // Components
 import { Paper, RaisedButton, Popover, Menu, MenuItem } from 'material-ui';
@@ -14,10 +13,13 @@ import Example from './example';
 githubGist.hljs.padding = '15px';
 githubGist.hljs.margin = '0';
 
-// Mapping of mimetype to highlighter language
-let languages = {
-    'application/json': 'javascript',
-    'text/xml': 'xml'
+const styles = {
+    h2: {
+        paddingLeft: '15px'
+    },
+    bodySwitcher: {
+        marginLeft: '45px'
+    }
 };
 
 module.exports = React.createClass({
@@ -79,11 +81,11 @@ module.exports = React.createClass({
         }
 
         return (
-            <CSSX styles={this.css()}>
-                <h2>
+            <div>
+                <h2 style={styles.h2}>
                     {this.props.title || 'Request body'}
                     <RaisedButton
-                        className="body-switcher"
+                        style={styles.bodySwitcher}
                         label={bodies[this.state.activeBody].name}
                         labelPosition="before"
                         icon={<IconExpandMore />}
@@ -119,20 +121,7 @@ module.exports = React.createClass({
                         );
                     })}
                 </Paper>
-            </CSSX>
-        );
-    },
-
-    /**
-     * Get the CSSX for the body component
-     */
-    css () {
-        return (
-            <style>
-            h2 { padding-left: 15px; }
-            h3 { padding: 15px 15px 0px 15px; }
-            .body-switcher { margin-left: 45px; }
-            </style>
+            </div>
         );
     }
 

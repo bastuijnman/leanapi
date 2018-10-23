@@ -1,9 +1,6 @@
 'use strict';
 
 const browserify = require('browserify');
-const browserifyCssx = require('browserify-cssx');
-const browserifyCss = require('browserify-css');
-const babelify = require('babelify');
 const path = require('path');
 
 module.exports = {
@@ -25,8 +22,6 @@ module.exports = {
                     path.resolve('./node_modules/json-schema-view-js/dist/bundle.js')
                 ]
             })
-            .transform('browserify-css')
-            .transform('browserify-cssx')
             .transform('babelify', {
                 presets: ['es2015', 'react']
             })

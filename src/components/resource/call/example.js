@@ -2,7 +2,6 @@
 
 // Base libraries
 import React from 'react';
-import CSSX from 'react-cssx';
 
 // Components
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -14,6 +13,13 @@ import Schema from './schema';
 // Update styling to
 githubGist.hljs.padding = '15px';
 githubGist.hljs.margin = '0';
+
+const styles = {
+    schemaButton: {
+        float: 'right',
+        marginRight: '2em'
+    }
+}
 
 class Example extends React.Component {
 
@@ -43,7 +49,7 @@ class Example extends React.Component {
             jsonSchemaDialog = null;
 
         if (example.jsonSchema) {
-            openJsonSchemaButton = <RaisedButton className="schema-button" label="View schema" onTouchTap={this.onHandleOpen.bind(this)} />;
+            openJsonSchemaButton = <RaisedButton style={styles.schemaButton} label="View schema" onTouchTap={this.onHandleOpen.bind(this)} />;
             jsonSchemaDialog = (
                 <Dialog
                     title="JSON Schema viewer"
@@ -60,30 +66,15 @@ class Example extends React.Component {
         }
 
         return (
-            <CSSX styles={this.css()}>
+            <div>
                 <h3>
                     {example.description}
                     {openJsonSchemaButton}
                 </h3>
+                <div style={{clear: 'both'}} />
                 <SyntaxHighlighter language='javascript' style={githubGist}>{example.body}</SyntaxHighlighter>
                 {jsonSchemaDialog}
-            </CSSX>
-        );
-    }
-
-    css () {
-        return (
-            <style>
-                .schema-button {
-                    float: right;
-                    margin-right: 2em;
-                }
-                h3:after {
-                    content: "";
-                    display: table;
-                    clear: both;
-                }
-            </style>
+            </div>
         );
     }
 
