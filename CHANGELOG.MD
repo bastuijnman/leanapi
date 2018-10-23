@@ -4,6 +4,7 @@
 
 ### Changes
 * Removed CSSX from components.
+* Made body examples optional.
 
 ## 1.4.0
 
