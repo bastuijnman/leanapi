@@ -136,14 +136,19 @@ module.exports = {
             headers: response.headers().map(this.parseTypeDeclaration),
             examples: response.body().map((body) => {
                 let description = body.description();
+                let example = body.example();
 
-                if (description) {
-                    description = description.value()
+                if (checkIfGetterIsNeeded(description)) {
+                    description = description.value();
+                }
+
+                if (checkIfGetterIsNeeded(example)) {
+                    example = example.value();
                 }
 
                 return {
                     description: description,
-                    body: body.example().value(),
+                    body: example,
                     jsonSchema: this.parseJsonSchema(body)
                 }
             })

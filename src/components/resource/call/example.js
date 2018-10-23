@@ -72,7 +72,7 @@ class Example extends React.Component {
                     {openJsonSchemaButton}
                 </h3>
                 <div style={{clear: 'both'}} />
-                <SyntaxHighlighter language='javascript' style={githubGist}>{example.body}</SyntaxHighlighter>
+                {example.body ? <SyntaxHighlighter language='javascript' style={githubGist}>{example.body}</SyntaxHighlighter> : null}
                 {jsonSchemaDialog}
             </div>
         );
