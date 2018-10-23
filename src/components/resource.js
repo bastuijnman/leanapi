@@ -23,15 +23,17 @@ export default class Resource extends React.Component {
             return <Call key={call.method + call.name} call={call} resource={resource} />;
         });
 
-        return [
-            <div key='header' style={headerStles}>
-                <h1>{resource.url}</h1>
-                <p>{resource.description}</p>
-            </div>,
-            <div key='calls'>
-                {calls}
+        return (
+            <div>
+                <div style={headerStles}>
+                    <h1>{resource.url}</h1>
+                    <p>{resource.description}</p>
+                </div>
+                <div>
+                    {calls}
+                </div>
             </div>
-        ];
+        )
     }
 
 };

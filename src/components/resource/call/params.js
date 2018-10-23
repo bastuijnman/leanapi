@@ -65,14 +65,14 @@ class Params extends React.Component {
         let rendered = params.map((param) => {
 
             let tags = this.getParamTags(param).map((tag) => {
-                return <span style={style.dtSpan}>{tag}</span>;
+                return <span style={styles.dtSpan}>{tag}</span>;
             });
 
             return (
                 <div key={param.name}>
                     <dt style={styles.dt}>{param.name} {tags}</dt>
                     { param.description ? <dd style={styles.dd}>{param.description}</dd> : null }
-                    { param.example ? <dd style={style.ddExample}><strong>Example:</strong> {param.example}</dd> : null }
+                    { param.example ? <dd style={Object.assign({}, styles.dd, styles.ddExample)}><strong>Example:</strong> {param.example}</dd> : null }
                 </div>
             );
 

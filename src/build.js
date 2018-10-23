@@ -22,6 +22,7 @@ module.exports = {
                     path.resolve('./node_modules/json-schema-view-js/dist/bundle.js')
                 ]
             })
+            .transform('browserify-css')
             .transform('babelify', {
                 presets: ['es2015', 'react']
             })

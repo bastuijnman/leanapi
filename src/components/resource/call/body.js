@@ -22,7 +22,7 @@ const styles = {
     }
 };
 
-module.exports = React.createClass({
+class Body extends React.Component {
 
     /**
      * Get the initial state of the body component
@@ -32,7 +32,7 @@ module.exports = React.createClass({
             activeBody: 0,
             popoverOpen: false
         };
-    },
+    }
 
     /**
      * Handle click for the body type selector
@@ -44,7 +44,7 @@ module.exports = React.createClass({
             popoverOpen: true,
             popoverAnchorEl: evnt.currentTarget
         });
-    },
+    }
 
     /**
      * Handle close event for the popover
@@ -53,7 +53,7 @@ module.exports = React.createClass({
         this.setState({
             popoverOpen: false
         });
-    },
+    }
 
     /**
      * Handle change of body type
@@ -68,7 +68,7 @@ module.exports = React.createClass({
 
         // Close our popover after changing
         this.onRequestPopoverClose();
-    },
+    }
 
     /**
      * Render the body component
@@ -125,4 +125,6 @@ module.exports = React.createClass({
         );
     }
 
-});
+}
+
+export default Body;
