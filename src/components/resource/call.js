@@ -10,17 +10,12 @@ import Responses from './call/responses';
 
 // Styling colors
 import {
-    lightGreen500,
-    lightGreen50,
-    red500,
-    red50,
-    amber500,
-    amber50,
-    lightBlue500,
-    lightBlue50,
-    teal500,
-    teal50
-} from 'material-ui/styles/colors';
+    lightGreen,
+    red,
+    amber,
+    lightBlue,
+    teal
+} from '@material-ui/core/colors';
 
 const callHeaderStyle = {
     borderTop: '1px solid rgba(0,0,0,0.05)',
@@ -32,26 +27,26 @@ const callHeaderStyle = {
 
 const callMethodStyleMap = {
     get: {
-        background: lightGreen500,
-        color: lightGreen50
+        background: lightGreen[500],
+        color: lightGreen[50]
     },
     delete: {
-        background: red500,
-        color: red50
+        background: red[500],
+        color: red[50]
     },
     put: {
-        background: amber500,
-        color: amber50
+        background: amber[500],
+        color: amber[50]
     },
     post: {
-        background: lightBlue500,
-        color: lightBlue50
+        background: lightBlue[500],
+        color: lightBlue[50]
     },
     patch: {
-        background: teal500,
-        color: teal50
+        background: teal[500],
+        color: teal[50]
     }
-}
+};
 
 const getCallMethodStyle = (method) => {
     return Object.assign({

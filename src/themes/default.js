@@ -1,6 +1,6 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { createMuiTheme } from '@material-ui/core/styles';
 
-export default getMuiTheme({
+export default createMuiTheme({
 
     appBar: {
         color: '#FFFFFF',

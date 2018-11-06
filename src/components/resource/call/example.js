@@ -5,21 +5,24 @@ import React from 'react';
 
 // Components
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { githubGist } from 'react-syntax-highlighter/dist/styles';
-import RaisedButton from 'material-ui/RaisedButton';
-import Dialog from 'material-ui/Dialog';
+import { githubGist } from 'react-syntax-highlighter/styles/hljs'
+import { Button, Dialog } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import Schema from './schema';
 
 // Update styling to
 githubGist.hljs.padding = '15px';
 githubGist.hljs.margin = '0';
 
-const styles = {
+const styles = theme => ({
     schemaButton: {
         float: 'right',
         marginRight: '2em'
+    },
+    dialogPaper: {
+        padding: theme.spacing.unit * 4
     }
-}
+})
 
 class Example extends React.Component {
 
@@ -48,17 +51,20 @@ class Example extends React.Component {
             openJsonSchemaButton = null,
             jsonSchemaDialog = null;
 
+        const { classes } = this.props;
+
         if (example.jsonSchema) {
-            openJsonSchemaButton = <RaisedButton style={styles.schemaButton} label="View schema" onTouchTap={this.onHandleOpen.bind(this)} />;
+            openJsonSchemaButton = <Button variant='contained' classes={{ root: classes.schemaButton }} onClick={this.onHandleOpen.bind(this)}>View schema</Button>
+
             jsonSchemaDialog = (
                 <Dialog
                     title="JSON Schema viewer"
-                    modal={false}
                     open={this.state.jsonSchemaViewerOpen}
-                    onRequestClose={this.onHandleClose.bind(this)}
-                    autoScrollBodyContent={true}
-                    bodyStyle={{padding: '24px'}}
-                    contentStyle={{maxWidth:'auto', width: '85%'}}
+                    onClose={this.onHandleClose.bind(this)}
+                    scroll='paper'
+                    maxWidth="lg"
+                    fullWidth
+                    classes={{ paper: classes.dialogPaper }}
                 >
                     <Schema jsonSchema={example.jsonSchema} />
                 </Dialog>
@@ -80,4 +86,4 @@ class Example extends React.Component {
 
 };
 
-module.exports = Example;
+export default withStyles(styles)(Example);
