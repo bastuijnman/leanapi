@@ -1,6 +1,6 @@
 # Leanapi Changelog
 
-## Unreleased
+## 1.5.0
 
 ### Changes
 * Removed CSSX from components.
