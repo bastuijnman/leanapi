@@ -1,38 +1,66 @@
 'use strict';
 
-const browserify = require('browserify');
-const path = require('path');
+const webpack = require('webpack');
+const { Readable } = require('stream');
+
+const MemoryFS = require('memory-fs');
+const fs = new MemoryFS();
 
 module.exports = {
 
     /**
-     * Bundles javascript through browserify and returns
-     * it in a Stream format.
+     * Gets a readable stream which builds the client JS through webpack.
      *
-     * @param {string} filename - The javascript file you want to bundle.
-     * @returns {fs.ReadStream} - The read file stream.
+     * @param {String} filename - The file name of the client.
      */
     getJsBuildStream: function (filename) {
-        return browserify({
-                entries: [
-                    filename
-                ],
-                noParse: [
-                    path.resolve('./node_modules/json-formatter-js/dist/json-formatter.js'),
-                    path.resolve('./node_modules/json-schema-view-js/dist/bundle.js')
+
+        const readable = new Readable();
+
+        const compiler = webpack({
+            context: __dirname,
+            entry: filename,
+            output: {
+                filename: 'app.dist.js'
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.m?js$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: [
+                                    require.resolve('@babel/preset-env'),
+                                    require.resolve('@babel/preset-react')
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        test: /\.css$/,
+                        use: [ 'style-loader', 'css-loader' ]
+                    }
                 ]
-            })
-            .transform('browserify-css')
-            .transform('babelify', {
-                presets: ['@babel/preset-env', '@babel/preset-react']
-            })
-            .require('./node_modules/json-formatter-js/dist/json-formatter.js', {
-                expose: 'JSONFormatter'
-            })
-            .require('./node_modules/json-schema-view-js/dist/bundle.js', {
-                expose: 'JSONSchemaView'
-            })
-            .bundle();
+            }
+        });
+
+        compiler.outputFileSystem = fs;
+
+        // Implement actual read function
+        readable._read = () => {
+            compiler.run((err, stats) => {
+                if (err || stats.hasErrors()) {
+                    throw new Error('Error while trying to create client JS');
+                }
+
+                readable.push(stats.compilation.assets['app.dist.js'].source());
+                readable.emit('end');
+            });
+        }
+
+        return readable;
     }
 
 };

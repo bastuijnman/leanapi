@@ -2,13 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-/*
- * JSON Schema View library, it needs the JSON formatter library to
- * work. This adds an object to the window scope.
- */
-import JSONFormatter from 'JSONFormatter';
-import JSONSchemaView from 'JSONSchemaView';
+import JSONSchemaView from '../../../../node_modules/json-schema-view-js/dist/bundle.js';
 
 export default class Schema extends React.Component {
 

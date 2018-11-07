@@ -1,4 +1,4 @@
-@import url("node_modules/json-schema-view-js/dist/style.css");
+@import url("../node_modules/json-schema-view-js/dist/style.css");
 
 /* Overrides */
 .json-schema-view > *, json-schema-view > * { font-size: 16px; }
