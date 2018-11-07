@@ -10,15 +10,10 @@ const port = 9876;
 
 module.exports = function (opts = {}) {
 
-    const responses = {
-        api: parser(opts.apiPath),
-        index: fs.readFileSync(__dirname + '/frontend/index.server.html'),
-        js: build.getJsBuildStream(__dirname + '/frontend/app.js')
-    };
+    let responses;
 
     const handleRequest = (request, response) => {
-        let url = request.url,
-            body;
+        let url = request.url;
 
         /*
          * Horrible way to handle the resources that we need, we'll
@@ -38,12 +33,7 @@ module.exports = function (opts = {}) {
                 if (typeof responses.js === 'string') {
                     response.end(responses.js);
                 } else {
-                    let cachedResponse = '';
-                    responses.js.on('data' , (chunk) => {
-                        cachedResponse += chunk;
-                    }).on('end', () => {
-                        responses.js = cachedResponse;
-                    }).pipe(response);
+                    responses.js.pipe(response);
                 }
                 break;
 
@@ -65,6 +55,19 @@ module.exports = function (opts = {}) {
         }
 
         console.log(`LeanAPI server is listening on port ${server.address().port}`);
+
+        responses = {
+            api: parser(opts.apiPath),
+            index: fs.readFileSync(__dirname + '/frontend/index.server.html'),
+            js: build.getJsBuildStream(__dirname + '/frontend/app.js')
+        };
+
+        let cachedJsResponse = '';
+        responses.js.on('data' , (chunk) => {
+            cachedJsResponse += chunk;
+        }).on('end', () => {
+            responses.js = cachedJsResponse;
+        });
     });
 
     fs.watch(path.dirname(opts.apiPath), {
