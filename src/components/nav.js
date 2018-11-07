@@ -1,11 +1,16 @@
 import React from 'react';
 
-import { List, ListItem, makeSelectable } from 'material-ui/List';
+import { List, ListItem, ListItemText, Collapse } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { ExpandMore, ExpandLess } from '@material-ui/icons';
 
-// Create the SelectableList component
-const SelectableList = makeSelectable(List);
+const styles = theme => ({
+    child: {
+        paddingLeft: theme.spacing.unit * 4
+    }
+});
 
-export default class Nav extends React.Component {
+class Nav extends React.Component {
 
     /**
      * Creates a new Nav component.
@@ -16,51 +21,19 @@ export default class Nav extends React.Component {
         super(props);
 
         this.state = {
-            activeHref: window.location.hash
+            activeHref: window.location.hash,
+            open: []
         };
 
         this.onHashChangeBound = this.onHashChange.bind(this);
+        this.onToggleChild = this.onToggleChild.bind(this);
+
         window.addEventListener('hashchange', this.onHashChangeBound);
     }
 
     componentWillUnmount () {
         window.removeEventListener('hashchange', this.onHashChangeBound);
         this.onHashChangeBound = null;
-    }
-
-    /**
-     * Creates an array of ListItem components which
-     * reference the given resources.
-     *
-     * @param {array} resources - An array of all resources to create the Nav from
-     * @returns {array} - An array of ListItem's
-     */
-    getNavItems (resources) {
-        return resources.map((resource) => {
-
-            let props = {
-                primaryText: resource.name,
-                value: resource.name,
-                key: resource.name,
-                href: '#' + resource.url
-            };
-
-            if (this.state.activeHref === props.href) {
-                props.style = {
-                    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-                    background: 'rgba(0, 0, 0, 0.025)'
-                }
-            }
-
-            if (resource.children.length > 0) {
-                props.nestedItems = this.getNavItems(resource.children);
-                props.primaryTogglesNestedList = true;
-            }
-
-            return (
-                <ListItem {...props} />
-            );
-        });
     }
 
     /**
@@ -77,16 +50,52 @@ export default class Nav extends React.Component {
         });
     }
 
+    onToggleChild (key) {
+        return () => {
+            let open = this.state.open.slice(0);
+            let index = open.indexOf(key);
+
+            if (index > -1) {
+                open.splice(index, 1);
+            } else {
+                open.push(key);
+            }
+
+            this.setState({ open });
+        };
+    }
+
     /**
      * Renders the Nav component.
      */
     render () {
+        const { resources, level, classes } = this.props;
+
         return (
-            <SelectableList>
-                {this.getNavItems(this.props.resources)}
-            </SelectableList>
+            <List className={level > 0 ? classes.child : null} disablePadding={level > 0}>
+                {resources.map(resource => [
+                    <ListItem key={`${resource.name}-item`} component="a" href={`#${resource.url}`}>
+                        <ListItemText primary={resource.name} />
+                        {resource.children.length > 0 &&
+                            <ExpandMore color="action" onClick={this.onToggleChild(resource.url)} />
+                        }
+                    </ListItem>,
+                    resource.children.length ?
+                    <Collapse
+                        key={`${resource.name}-children`}
+                        in={this.state.open.indexOf(resource.url) > -1}
+                    >
+                        <NavWithStyles resources={resource.children} level={level + 1} />
+                    </Collapse> : null
+                ])}
+            </List>
         )
     }
-
-
 }
+
+Nav.defaultProps = {
+    level: 0
+};
+
+const NavWithStyles = withStyles(styles)(Nav);
+export default NavWithStyles;

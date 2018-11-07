@@ -4,20 +4,25 @@
 import React from 'react';
 
 // Components
-import { Paper, List, ListItem } from 'material-ui';
-import { green500, orange500 } from 'material-ui/styles/colors';
-import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
+import { Paper, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { green, orange } from '@material-ui/core/colors';
+import RadioButtonChecked from '@material-ui/icons/RadioButtonChecked';
 import Example from './example';
 import Params from './params';
 
 // Status code colors
-const statusColors = {
+const statusColors = theme => ({
     // 2XX status codes
-    2: green500,
+    status2: {
+        color: green[500]
+    },
 
     // 4XX status codes
-    4: orange500
-}
+    status4: {
+        color: orange[500]
+    }
+});
 
 const styles = {
     nav: {
@@ -32,7 +37,7 @@ const styles = {
     }
 }
 
-export default class Responses extends React.Component {
+class Responses extends React.Component {
 
     getExamples () {
         let responses = this.props.responses,
@@ -70,6 +75,7 @@ export default class Responses extends React.Component {
 
     render () {
         let responses;
+        const { classes } = this.props;
 
         if (!this.props.responses.length) {
             return null;
@@ -79,14 +85,18 @@ export default class Responses extends React.Component {
         responses = this.props.responses.map((response, index) => (
             <ListItem
                 key={index}
-                leftIcon={<RadioButtonChecked color={statusColors[response.code.substring(0, 1)]} />}
-                primaryText={response.code}
                 onClick={() => {
                     this.setState({
                         activeResponseIndex: index
                     });
                 }}
-            />
+                button
+            >
+                <ListItemIcon>
+                    <RadioButtonChecked className={classes[`status${response.code.substring(0, 1)}`]} />
+                </ListItemIcon>
+                <ListItemText primary={response.code} />
+            </ListItem>
         ));
 
         return (
@@ -111,3 +121,5 @@ export default class Responses extends React.Component {
     }
 
 };
+
+export default withStyles(statusColors)(Responses);

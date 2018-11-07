@@ -2,17 +2,17 @@
 
 // Base libraries
 import React from 'react';
-import { Router, Route, hashHistory } from 'react-router';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { HashRouter as Router, Route, hashHistory } from 'react-router-dom';
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import DefaultTheme from './themes/default';
-
-// Needed for material-ui
-let injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
+import classNames from 'classnames';
 
 // Components
-import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Drawer from '@material-ui/core/Drawer';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // Internal components
 import Home from './components/home';
@@ -21,6 +21,39 @@ import Nav from './components/nav';
 
 import './app.css';
 
+const drawerWidth = 256;
+const styles = theme => ({
+    root: {
+        display: 'flex'
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0
+    },
+    drawerPaper: {
+        width: drawerWidth
+    },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        width: '100%',
+        marginLeft: -drawerWidth,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    contentShift: {
+        flexGrow: 1,
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: 0,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+});
+
 class App extends React.Component {
 
     constructor (props) {
@@ -28,12 +61,18 @@ class App extends React.Component {
 
         this._routes = (
             <Router history={hashHistory}>
-                <Route path="/" component={() => (<Home api={this.state.api} />)} />
-                <Route path="/*" component={
-                    (nextState, callback) => {
-                        return <Resource key={nextState.params.splat} resource={this.getResourceByUrl('/' + nextState.params.splat)} />;
-                    }
-                } />
+                <div>
+                    <Route path="/" exact component={() => (<Home api={this.state.api} />)} />
+                    <Route path="/*" component={
+                        (nextState) => {
+                            const resource = this.getResourceByUrl(nextState.match.url);
+                            if (resource) {
+                                return <Resource key={resource} resource={resource} />;
+                            }
+                            return null;
+                        }
+                    } />
+                </div>
             </Router>
         );
 
@@ -42,6 +81,8 @@ class App extends React.Component {
             menu: true,
             api: null
         };
+
+        this.onToggleMenu = this.onToggleMenu.bind(this);
     }
 
     setupHashMap (resources) {
@@ -78,6 +119,7 @@ class App extends React.Component {
     }
 
     render () {
+        const { classes } = this.props;
         let api = this.state.api;
 
         if (api === null) {
@@ -86,18 +128,32 @@ class App extends React.Component {
 
         // Render actual application
         return (
-            <MuiThemeProvider muiTheme={DefaultTheme}>
-                <div>
-                    <AppBar style={{position:'fixed'}} onLeftIconButtonTouchTap={this.onToggleMenu} />
+            <MuiThemeProvider theme={DefaultTheme}>
+                <div className={classes.root}>
 
-                    <div style={{padding: '64px 0 0 256px', paddingLeft: this.state.menu ? '256px' : '0px'}}>
-                        {this._routes}
-                    </div>
-
-                    <Drawer open={this.state.menu}>
-                        <AppBar onLeftIconButtonTouchTap={this.onToggleMenu} />
+                    <Drawer
+                        classes={{ paper: classes.drawerPaper }}
+                        className={classes.drawer}
+                        open={this.state.menu}
+                        anchor="left"
+                        variant="persistent"
+                    >
+                        <AppBar position="sticky">
+                            <Toolbar />
+                        </AppBar>
                         <Nav resources={api.resources} />
                     </Drawer>
+
+                    <div className={classNames(classes.content, {
+                        [classes.contentShift]: this.state.menu
+                    })}>
+                        <AppBar position="sticky">
+                            <Toolbar>
+                                <IconButton onClick={this.onToggleMenu}><MenuIcon /></IconButton>
+                            </Toolbar>
+                        </AppBar>
+                        {this._routes}
+                    </div>
                 </div>
             </MuiThemeProvider>
         );
@@ -105,4 +161,4 @@ class App extends React.Component {
 
 };
 
-module.exports = App;
+export default withStyles(styles)(App);

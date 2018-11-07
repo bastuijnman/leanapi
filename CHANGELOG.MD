@@ -5,9 +5,12 @@
 ### Changes
 * Removed CSSX from components.
 * Made body examples optional.
+* Changed bundler to `webpack` instead of `browserify`.
+* Updated all UI packages to their latest respective major version.
 
 ### Bugfixes
 * Fixed issues detected by `npm audit`.
+* Fixed issue where menu was not collapsable.
 
 ## 1.4.0
 

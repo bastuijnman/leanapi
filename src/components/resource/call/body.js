@@ -4,9 +4,9 @@
 import React from 'react';
 
 // Components
-import { Paper, RaisedButton, Popover, Menu, MenuItem } from 'material-ui';
-import IconExpandMore from 'material-ui/svg-icons/navigation/expand-more';
-import { githubGist } from 'react-syntax-highlighter/dist/styles';
+import { Paper, Button, Menu, MenuItem } from '@material-ui/core';
+import IconExpandMore from '@material-ui/icons/ExpandMore';
+import { githubGist } from 'react-syntax-highlighter/styles/hljs'
 import Example from './example';
 
 // Update styling to
@@ -29,8 +29,12 @@ class Body extends React.Component {
 
         this.state = {
             activeBody: 0,
-            popoverOpen: false
+            popoverAnchorEl: null
         };
+
+        this.onButtonClick = this.onButtonClick.bind(this);
+        this.onChangeBody = this.onChangeBody.bind(this);
+        this.onRequestPopoverClose = this.onRequestPopoverClose.bind(this);
     }
 
     /**
@@ -40,7 +44,6 @@ class Body extends React.Component {
      */
     onButtonClick (evnt) {
         this.setState({
-            popoverOpen: true,
             popoverAnchorEl: evnt.currentTarget
         });
     }
@@ -50,7 +53,7 @@ class Body extends React.Component {
      */
     onRequestPopoverClose () {
         this.setState({
-            popoverOpen: false
+            popoverAnchorEl: null
         });
     }
 
@@ -58,15 +61,18 @@ class Body extends React.Component {
      * Handle change of body type
      *
      * @param {Event} evnt - The tap event
-     * @param {MenuItem} menuItem - The tapped menu item
+     * @param {MenuItem} bodyIndex - The tapped menu item
      */
-    onChangeBody (evnt, menuItem) {
-        this.setState({
-            activeBody: parseInt(menuItem.key, 10)
-        });
+    onChangeBody (bodyIndex) {
 
-        // Close our popover after changing
-        this.onRequestPopoverClose();
+        return () => {
+            this.setState({
+                activeBody: bodyIndex
+            });
+
+            // Close our popover after changing
+            this.onRequestPopoverClose();
+        }
     }
 
     /**
@@ -74,6 +80,7 @@ class Body extends React.Component {
      */
     render () {
         let bodies = this.props.bodies
+        const { popoverAnchorEl } = this.state;
 
         if (!bodies || bodies.length === 0) {
             return null;
@@ -83,25 +90,28 @@ class Body extends React.Component {
             <div>
                 <h2 style={styles.h2}>
                     {this.props.title || 'Request body'}
-                    <RaisedButton
+                    <Button
                         style={styles.bodySwitcher}
-                        label={bodies[this.state.activeBody].name}
-                        labelPosition="before"
-                        icon={<IconExpandMore />}
-                        onTouchTap={this.onButtonClick}
+                        onClick={this.onButtonClick}
+                        variant="contained"
                     >
-                        <Popover
-                            open={this.state.popoverOpen}
-                            anchorEl={this.state.popoverAnchorEl}
-                            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-                            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                            onRequestClose={this.onRequestPopoverClose}
-                        >
-                            <Menu onItemTouchTap={this.onChangeBody}>
-                                { bodies.map((body, bodyIndex) => (<MenuItem key={bodyIndex} primaryText={body.name} value={body.name} />)) }
-                            </Menu>
-                        </Popover>
-                    </RaisedButton>
+                        {bodies[this.state.activeBody].name}
+                        <IconExpandMore />
+                    </Button>
+                    <Menu
+                        open={Boolean(popoverAnchorEl)}
+                        anchorEl={popoverAnchorEl}
+                        onClose={this.onRequestPopoverClose}
+                    >
+                        { bodies.map((body, bodyIndex) => (
+                            <MenuItem
+                                onClick={this.onChangeBody(bodyIndex)}
+                                key={bodyIndex}
+                            >
+                                {body.name}
+                            </MenuItem>)
+                        )}
+                    </Menu>
                 </h2>
                 <Paper>
                     {bodies.map((body, index) => {

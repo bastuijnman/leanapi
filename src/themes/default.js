@@ -1,10 +1,20 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { createMuiTheme } from '@material-ui/core/styles';
 
-export default getMuiTheme({
+import blueGray from '@material-ui/core/colors/blueGrey';
+import grey from '@material-ui/core/colors/grey';
 
-    appBar: {
-        color: '#FFFFFF',
-        textColor: '#dfdfdf'
+export default createMuiTheme({
+
+    palette: {
+
+        primary: {
+            main: blueGray[600]
+        },
+
+        secondary: {
+            main: grey[100]
+        }
+
     }
 
 });

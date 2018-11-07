@@ -1,38 +1,83 @@
 'use strict';
 
-const browserify = require('browserify');
-const path = require('path');
+const webpack = require('webpack');
+const { Readable } = require('stream');
+const Progress = require('progress');
+
+const MemoryFS = require('memory-fs');
+const fs = new MemoryFS();
 
 module.exports = {
 
     /**
-     * Bundles javascript through browserify and returns
-     * it in a Stream format.
+     * Gets a readable stream which builds the client JS through webpack.
      *
-     * @param {string} filename - The javascript file you want to bundle.
-     * @returns {fs.ReadStream} - The read file stream.
+     * @param {String} filename - The file name of the client.
      */
     getJsBuildStream: function (filename) {
-        return browserify({
-                entries: [
-                    filename
-                ],
-                noParse: [
-                    path.resolve('./node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js'),
-                    path.resolve('./node_modules/json-schema-view-js/dist/bundle.js')
+
+        const readable = new Readable();
+        const bar = new Progress('Building [:bar] :percent', {
+            total: 40,
+            renderThrottle: 0
+        });
+        let lastPercent = 0;
+
+        const compiler = webpack({
+            context: __dirname,
+            entry: filename,
+            output: {
+                filename: 'app.dist.js'
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.m?js$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: [
+                                    require.resolve('@babel/preset-env'),
+                                    require.resolve('@babel/preset-react')
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        test: /\.css$/,
+                        use: [ 'style-loader', 'css-loader' ]
+                    }
                 ]
-            })
-            .transform('browserify-css')
-            .transform('babelify', {
-                presets: ['es2015', 'react']
-            })
-            .require('./node_modules/json-schema-view-js/bower_components/json-formatter-js/dist/bundle.js', {
-                expose: 'JSONFormatter'
-            })
-            .require('./node_modules/json-schema-view-js/dist/bundle.js', {
-                expose: 'JSONSchemaView'
-            })
-            .bundle();
+            },
+            plugins: [
+                new webpack.ProgressPlugin(percent => {
+
+                    const newPercent = Math.ceil(percent * 100);
+                    if (newPercent > lastPercent) {
+                        bar.update(percent);
+                        lastPercent = newPercent;
+                    }
+                })
+            ]
+        });
+
+        compiler.outputFileSystem = fs;
+        compiler.run((err, stats) => {
+            if (err || stats.hasErrors()) {
+                throw new Error('Error while trying to create client JS');
+            }
+
+            readable.push(stats.compilation.assets['app.dist.js'].source());
+            readable.emit('end');
+        });
+
+        // Implement actual read function
+        readable._read = () => {
+
+        }
+
+        return readable;
     }
 
 };
