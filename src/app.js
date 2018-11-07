@@ -5,6 +5,7 @@ import React from 'react';
 import { HashRouter as Router, Route, hashHistory } from 'react-router-dom';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import DefaultTheme from './themes/default';
+import classNames from 'classnames';
 
 // Components
 import AppBar from '@material-ui/core/AppBar';
@@ -35,8 +36,22 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        width: `calc(100% - ${drawerWidth}px)`
-    }
+        width: '100%',
+        marginLeft: -drawerWidth,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    contentShift: {
+        flexGrow: 1,
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: 0,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
 });
 
 class App extends React.Component {
@@ -66,6 +81,8 @@ class App extends React.Component {
             menu: true,
             api: null
         };
+
+        this.onToggleMenu = this.onToggleMenu.bind(this);
     }
 
     setupHashMap (resources) {
@@ -118,20 +135,21 @@ class App extends React.Component {
                         classes={{ paper: classes.drawerPaper }}
                         className={classes.drawer}
                         open={this.state.menu}
-                        variant="permanent"
+                        anchor="left"
+                        variant="persistent"
                     >
                         <AppBar position="sticky">
-                            <Toolbar>
-                                <IconButton><MenuIcon /></IconButton>
-                            </Toolbar>
+                            <Toolbar />
                         </AppBar>
                         <Nav resources={api.resources} />
                     </Drawer>
 
-                    <div className={classes.content}>
+                    <div className={classNames(classes.content, {
+                        [classes.contentShift]: this.state.menu
+                    })}>
                         <AppBar position="sticky">
                             <Toolbar>
-                                <IconButton><MenuIcon /></IconButton>
+                                <IconButton onClick={this.onToggleMenu}><MenuIcon /></IconButton>
                             </Toolbar>
                         </AppBar>
                         {this._routes}

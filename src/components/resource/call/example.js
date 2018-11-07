@@ -54,7 +54,7 @@ class Example extends React.Component {
         const { classes } = this.props;
 
         if (example.jsonSchema) {
-            openJsonSchemaButton = <Button variant='contained' classes={{ root: classes.schemaButton }} onClick={this.onHandleOpen.bind(this)}>View schema</Button>
+            openJsonSchemaButton = <Button color='secondary' variant='contained' classes={{ root: classes.schemaButton }} onClick={this.onHandleOpen.bind(this)}>View schema</Button>
 
             jsonSchemaDialog = (
                 <Dialog
