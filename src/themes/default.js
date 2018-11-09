@@ -8,7 +8,7 @@ export default createMuiTheme({
     palette: {
 
         primary: {
-            main: blueGray[600]
+            main: blueGray[900]
         },
 
         secondary: {

@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import common from '@material-ui/core/colors/common';
 
 // Internal components
 import Home from './components/home';
@@ -158,7 +159,7 @@ class App extends React.Component {
                                     onClick={this.onToggleMenu}
                                 >
                                     <MenuIcon style={{
-                                        color: fade('#FFF', 0.75)
+                                        color: fade(common.white, 0.75)
                                     }} />
                                 </IconButton>
                                 <div className={classes.grow} />
