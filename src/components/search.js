@@ -114,13 +114,6 @@ const styles = theme => ({
     patch: {
         backgroundColor: callMethodStyleMap.patch.background,
         color: callMethodStyleMap.patch.color
-    },
-    overlay: {
-        position: 'fixed',
-        width: '100%',
-        height: '100%',
-        left: 0,
-        top: 0
     }
 });
 
@@ -204,11 +197,6 @@ class Search extends React.Component {
                         }}
                     />
                 </div>
-                {/*
-                {this.state.anchorEl &&
-                    <div onClick={this.onBlur} className={classes.overlay} />
-                }
-                */}
                 <Popper
                     className={classes.popper}
                     anchorEl={this.state.anchorEl}
