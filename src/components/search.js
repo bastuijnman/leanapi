@@ -154,7 +154,7 @@ class Search extends React.Component {
             this.setState({
                 anchorEl: null
             });
-        }, 100);
+        }, 200);
     }
 
     onFocus (evnt) {

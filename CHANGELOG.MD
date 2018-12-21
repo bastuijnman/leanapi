@@ -1,5 +1,10 @@
 # Leanapi Changelog
 
+## 1.6.1
+
+### Bugfixes
+* Fixed issue where search links where not routing.
+
 ## 1.6.0
 
 ### Features
