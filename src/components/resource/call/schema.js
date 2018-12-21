@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import JSONSchemaView from '../../../../node_modules/json-schema-view-js/dist/bundle.js';
+import JSONSchemaView from 'json-schema-view-js';
 
 export default class Schema extends React.Component {
 

@@ -13,11 +13,14 @@ import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import common from '@material-ui/core/colors/common';
 
 // Internal components
 import Home from './components/home';
 import Resource from './components/resource';
 import Nav from './components/nav';
+import Search from './components/search';
 
 import './app.css';
 
@@ -25,6 +28,9 @@ const drawerWidth = 256;
 const styles = theme => ({
     root: {
         display: 'flex'
+    },
+    grow: {
+        flexGrow: 1
     },
     drawer: {
         width: drawerWidth,
@@ -149,7 +155,15 @@ class App extends React.Component {
                     })}>
                         <AppBar position="sticky">
                             <Toolbar>
-                                <IconButton onClick={this.onToggleMenu}><MenuIcon /></IconButton>
+                                <IconButton
+                                    onClick={this.onToggleMenu}
+                                >
+                                    <MenuIcon style={{
+                                        color: fade(common.white, 0.75)
+                                    }} />
+                                </IconButton>
+                                <div className={classes.grow} />
+                                <Search resources={api.resources} />
                             </Toolbar>
                         </AppBar>
                         {this._routes}
