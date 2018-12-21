@@ -163,7 +163,7 @@ class App extends React.Component {
                                     }} />
                                 </IconButton>
                                 <div className={classes.grow} />
-                                <Search />
+                                <Search resources={api.resources} />
                             </Toolbar>
                         </AppBar>
                         {this._routes}
