@@ -1,5 +1,13 @@
 # Leanapi Changelog
 
+## [Unreleased]
+
+### Features
+* Added search feature
+
+### Bugfixes
+* Fixed an issue where import paths where not followed correctly, which resulted in a non-functioning build.
+
 ## 1.5.0
 
 ### Changes
@@ -20,7 +28,7 @@
 ## 1.3.1
 
 ### Bugfixes
-* Fixed a bug where serving a spec with a security scheme which doesnt contain a body killed the dev server. Added a warning when occiring.
+* Fixed a bug where serving a spec with a security scheme which doesnt contain a body killed the dev server. Added a warning when occuring.
 
 ## 1.3.0
 
