@@ -43,6 +43,24 @@ module.exports = {
                             }
                         }
                     },
+                    {
+                        test: /\.css$/,
+                        use: [ 'style-loader', {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: [
+
+                                    /*
+                                     * For PostCSS it appears the actual object is required
+                                     * so we first resolve the local installation of tailwind
+                                     * (within this package) and then require it.
+                                     */
+                                    require(require.resolve('tailwindcss'))
+                                ]
+                            }
+                        }]
+                    }
                 ]
             },
             plugins: [

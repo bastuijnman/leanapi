@@ -3,6 +3,9 @@
 // Base libraries
 import React from 'react';
 
+// Application CSS (mostly tailwind)
+import './app.css';
+
 class App extends React.Component {
 
     constructor (props) {
@@ -32,7 +35,11 @@ class App extends React.Component {
 
         // Render actual application
         return (
-            <div>V2 LAYOUT</div>
+            <div className="flex">
+                <div className="w-3/12">NAV</div>
+                <div className="w-5/12">CONTENT</div>
+                <div className="w-4/12">RESPONSES</div>
+            </div>
         );
     }
 
