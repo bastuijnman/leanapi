@@ -1,10 +1,6 @@
 'use strict';
 
 let parser = require('raml-1-parser');
-let path = require('path');
-let schemaDeref = require('json-schema-deref-sync');
-let fs = require('fs');
-let typesMap = {};
 
 const checkIfGetterIsNeeded = function (checkParam) {
     return checkParam && typeof checkParam === 'object';
@@ -49,19 +45,6 @@ module.exports = {
             console.log('Sorry, currently we only support RAML 1.0');
             process.exit(1);
         }
-
-        // Reset the types map on parse
-        typesMap = {};
-        api.types().forEach(function (type) {
-            let typeObj = type.toJSON()[type.name()];
-
-            if (typeObj.typePropertyKind === 'JSON') {
-                let schema = JSON.parse(fs.readFileSync(path.dirname(apiPath) + '/' + typeObj.schemaPath, 'utf-8'));
-                typesMap[typeObj.name] = schemaDeref(schema, {
-                    baseFolder: path.dirname(apiPath) + '/' + path.dirname(typeObj.schemaPath)
-                });
-            }
-        });
 
         return {
             title: api.title(),
@@ -118,7 +101,6 @@ module.exports = {
                     name: body.name(),
                     description: description,
                     example: example,
-                    jsonSchema: this.parseJsonSchema(body)
                 }
             })
         };
@@ -149,21 +131,9 @@ module.exports = {
                 return {
                     description: description,
                     body: example,
-                    jsonSchema: this.parseJsonSchema(body)
                 }
             })
         }
-    },
-
-    parseJsonSchema (body) {
-        let bodyType = body.type()[0];
-
-        // TODO: Also check for JSON schema type
-        if (typesMap[bodyType]) {
-            return typesMap[bodyType];
-        }
-
-        return null;
     },
 
     parseTypeDeclaration (parameter) {
