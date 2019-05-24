@@ -11,18 +11,24 @@ function Navigation ({ api }) {
 
     return (
         <React.Fragment>
-            <div className="p-4">
+            <div className="p-4 pb-8">
                 <input
                     type="text"
                     placeholder="Search API"
                     className="block w-full rounded p-2"
                 />
             </div>
-            <ul className="list-reset px-4">
 
+            <div className="pl-6 pb-8">
+                <span className="font-semibold text-gray-600">Welcome</span>
+                <a className="block text-gray-600 hover:text-gray-800" href="/">Introduction</a>
+            </div>
+
+            <ul className="list-reset">
+                <li className="pl-6 font-semibold text-gray-600">Reference</li>
                 {resources.map(resource => (
-                    <li key={resource.name} className="my-2">
-                        <Link to={resource.url}>
+                    <li key={resource.name} className="py-1 pl-6">
+                        <Link to={resource.url} className="text-gray-600 hover:text-gray-800">
                             {stripSlashFromName(resource.name)}
                         </Link>
                     </li>

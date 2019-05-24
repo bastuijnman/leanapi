@@ -4,7 +4,7 @@ function Introduction () {
 
     return (
         <React.Fragment>
-            <h1 className="text-5xl">Introduction</h1>
+            <h1 className="text-3xl">Introduction</h1>
             <p>Some summary</p>
         </React.Fragment>
     );
