@@ -10,7 +10,7 @@ const map = {
 
 function Call ({ call, className }) {
 
-    const color = map[call.method.toLowerCase()];
+    const color = map[call.method.toLowerCase()] || 'purple';
 
     return (
         <div className={`flex flex-row ${className}`}>
