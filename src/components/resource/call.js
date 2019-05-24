@@ -1,6 +1,16 @@
 import React from 'react';
 
+const map = {
+    get: 'green',
+    post: 'blue',
+    put: 'orange',
+    patch: 'teal',
+    delete: 'red'
+};
+
 function Call ({ call, className }) {
+
+    const color = map[call.method.toLowerCase()];
 
     return (
         <div className={`flex flex-row ${className}`}>
@@ -8,8 +18,8 @@ function Call ({ call, className }) {
                 <div className="p-4">
 
                     <div className="flex flex-column">
-                        <div className="p-2 rounded-l bg-green-300 text-white">{call.method}</div>
-                        <div className="p-2 rounded-r bg-green-200 text-gray-800 flex-grow">{call.name}</div>
+                        <div className={`p-2 rounded-l bg-${color}-300 text-white`}>{call.method}</div>
+                        <div className={`p-2 rounded-r bg-${color}-200 text-gray-800 flex-grow`}>{call.name}</div>
                     </div>
 
                 </div>

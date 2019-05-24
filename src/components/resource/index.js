@@ -35,7 +35,7 @@ function Resource ({ match }) {
         <React.Fragment>
             <div className="flex flex-col w-9/12 min-h-screen bg-gray-100">
 
-                <div className="flex flex-row">
+                <div className={`flex flex-row ${!calls.length && 'flex-grow'}`}>
                     <div className="w-2/3 flex-grow">
                         <div className="p-4 text-gray-800">
                             <h1 className="text-5xl">{name}</h1>
