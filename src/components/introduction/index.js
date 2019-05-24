@@ -6,10 +6,12 @@ function Introduction () {
     const api = useContext(ApiContext);
 
     return (
-        <React.Fragment>
-            <h1 className="text-3xl">{api.title}</h1>
-            <p>{api.description}</p>
-        </React.Fragment>
+        <div className="w-9/12 min-h-screen bg-gray-100">
+            <div className="p-4">
+                <h1 className="text-3xl">{api.title}</h1>
+                <p>{api.description}</p>
+            </div>
+        </div>
     );
 
 }

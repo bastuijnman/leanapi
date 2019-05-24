@@ -10,6 +10,7 @@ import ApiContext from './context/api';
 // Application components
 import Navigation from './components/navigation';
 import Introduction from './components/introduction';
+import Resource from './components/resource';
 
 // Application CSS (mostly tailwind)
 import './app.css';
@@ -49,12 +50,8 @@ class App extends React.Component {
                         <div className="w-3/12 min-h-screen bg-gray-300">
                             <Navigation api={api} />
                         </div>
-                        <div className="w-6/12 min-h-screen bg-gray-100">
-                            <div className="p-4">
-                                <Route path="/" component={Introduction} />
-                            </div>
-                        </div>
-                        <div className="w-3/12 min-h-screen bg-gray-800">RESPONSES</div>
+                        <Route exact path="/" component={Introduction} />
+                        <Route path="/:path" component={Resource} />
                     </div>
                 </ApiContext.Provider>
             </Router>
