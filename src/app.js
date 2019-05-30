@@ -46,12 +46,14 @@ class App extends React.Component {
         return (
             <Router>
                 <ApiContext.Provider value={api}>
-                    <div className="flex">
+                    <div className="flex max-w-full">
                         <div className="w-1/5 min-h-screen bg-gray-300">
                             <Navigation api={api} />
                         </div>
-                        <Route exact path="/" component={Introduction} />
-                        <Route path="/*" component={Resource} />
+                        <div className="w-4/5">
+                            <Route exact path="/" component={Introduction} />
+                            <Route path="/*" component={Resource} />
+                        </div>
                     </div>
                 </ApiContext.Provider>
             </Router>
