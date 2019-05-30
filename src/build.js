@@ -56,7 +56,7 @@ module.exports = {
                                      * so we first resolve the local installation of tailwind
                                      * (within this package) and then require it.
                                      */
-                                    require(require.resolve('tailwindcss'))
+                                    require(require.resolve('tailwindcss'))(require.resolve('../tailwind.config.js'))
                                 ]
                             }
                         }]
