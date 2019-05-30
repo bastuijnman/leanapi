@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '../button';
+import Response from './response';
 
 const map = {
 
@@ -27,6 +28,8 @@ function Call ({ call, className }) {
 
     return (
         <div className={`flex flex-row ${className}`}>
+
+            {/* Content section */}
             <div className="w-7/12 flex-grow">
                 <div className="p-4">
 
@@ -52,6 +55,8 @@ function Call ({ call, className }) {
 
                 </div>
             </div>
+
+            {/* Responses section */}
             <div className="w-5/12 flex-grow bg-gray-800">
                 <div className="py-4 px-2">
 
@@ -72,11 +77,7 @@ function Call ({ call, className }) {
                     </div>
 
                     {/* Render active response */}
-                    <div className="bg-gray-900 rounded p-4 text-white overflow-x-scroll text-xs">
-                        <pre>
-                            {activeResponse.examples.map(example => example.body)}
-                        </pre>
-                    </div>
+                    <Response response={activeResponse} />
 
                 </div>
             </div>
