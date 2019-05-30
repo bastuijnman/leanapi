@@ -31,21 +31,21 @@ function Call ({ call, className }) {
                 <div className="p-4">
 
                     <div className="flex flex-column">
-                        <div className={`p-2 rounded-l bg-${color}-300 text-white`}>{call.method}</div>
+                        <div className={`p-2 rounded-l bg-${color}-300 text-white font-medium`}>{call.method}</div>
                         <div className={`p-2 rounded-r bg-${color}-200 text-gray-800 flex-grow`}>{call.name}</div>
                     </div>
 
                     <p>{description}</p>
 
-                    <h3 className="text-3xl">Headers</h3>
+                    <p className="mt-4 mb-2 font-bold text-gray-900">Headers</p>
                     {headers.map(header => (
-                        <div key={header.name} className="mb-8">
+                        <div key={header.name} className="mb-8 text-gray-700">
                             <pre className="text-xs bg-gray-200 border border-gray-300 inline-block p-1 px-2">{header.name}</pre>
                             <pre className="text-xs ml-2 inline-block">{header.type.join(', ')}</pre>
                             {header.required && <span className="float-right text-gray-600">REQUIRED</span>}
 
                             <p className="text-sm">{header.description}</p>
-                            <p className="text-sm break-all"><strong>Example:</strong> {header.example}</p>
+                            <p className="text-sm break-all"><strong>Example:</strong> <span className="font-mono">{header.example}</span></p>
                         </div>
                     ))}
 
@@ -71,7 +71,7 @@ function Call ({ call, className }) {
                     </div>
 
                     {/* Render active response */}
-                    <div className="bg-gray-900 rounded p-2 text-white overflow-x-scroll text-xs">
+                    <div className="bg-gray-900 rounded p-4 text-white overflow-x-scroll text-xs">
                         <pre>
                             {activeResponse.examples.map(example => example.body)}
                         </pre>

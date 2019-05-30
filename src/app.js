@@ -47,7 +47,7 @@ class App extends React.Component {
             <Router>
                 <ApiContext.Provider value={api}>
                     <div className="flex">
-                        <div className="w-3/12 min-h-screen bg-gray-300">
+                        <div className="w-1/5 min-h-screen bg-gray-300">
                             <Navigation api={api} />
                         </div>
                         <Route exact path="/" component={Introduction} />

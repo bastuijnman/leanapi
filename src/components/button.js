@@ -10,7 +10,7 @@ const styles = {
 
 function Button ({ children, variant, active, className, ...props}) {
 
-    const classNames = ['px-4 py-2 cursor-pointer rounded focus:outline-none'];
+    const classNames = ['px-4 py-2 cursor-pointer rounded focus:outline-none transition-fast'];
 
     // Attach variant & conditional classes
     classNames.push(styles[variant].base);
