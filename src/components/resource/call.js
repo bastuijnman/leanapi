@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '../button';
 
@@ -22,6 +22,8 @@ function Call ({ call, className }) {
 
     const color = map[call.method.toLowerCase()] || 'purple';
     const { responses, description, headers } = call;
+
+    const [ activeResponse, setActiveResponse ] = useState(responses[0]);
 
     return (
         <div className={`flex flex-row ${className}`}>
@@ -52,10 +54,13 @@ function Call ({ call, className }) {
             <div className="w-5/12 flex-grow bg-gray-800">
                 <div className="py-4 px-2">
 
+                    {/* Set of response code lists */}
                     <div className="-ml-2 mb-2">
                         {responses.map(response => (
                             <Button
                                 key={response.code}
+                                variant="primary"
+                                onClick={() => setActiveResponse(response)}
                                 className="ml-2"
                             >
                                 <span className={`mr-2 text-${map[response.code[0]]}-500`}>&#x25C9;</span>
@@ -64,13 +69,12 @@ function Call ({ call, className }) {
                         ))}
                     </div>
 
-                    {responses.map(response => (
-                        <div className="bg-gray-900 rounded p-1 text-white overflow-x-scroll text-xs">
-                            <pre>
-                                {response.examples.map(example => JSON.stringify(JSON.parse(example.body), null, 4))}
-                            </pre>
-                        </div>
-                    ))}
+                    {/* Render active response */}
+                    <div className="bg-gray-900 rounded p-1 text-white overflow-x-scroll text-xs">
+                        <pre>
+                            {activeResponse.examples.map(example => JSON.stringify(JSON.parse(example.body), null, 4))}
+                        </pre>
+                    </div>
 
                 </div>
             </div>
