@@ -21,7 +21,12 @@ function Navigation ({ api }) {
 
             <div className="pl-6 pb-8">
                 <span className="font-semibold text-gray-600">Welcome</span>
-                <a className="block text-gray-600 hover:text-gray-800" href="/">Introduction</a>
+                <Link
+                    className="block text-gray-600 hover:text-gray-800"
+                    to="/"
+                >
+                    Introduction
+                </Link>
             </div>
 
             <ul className="list-reset">
