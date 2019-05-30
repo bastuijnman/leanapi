@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Button from '../button';
+
 const map = {
 
     // Method color maps
@@ -50,15 +52,15 @@ function Call ({ call, className }) {
             <div className="w-5/12 flex-grow bg-gray-800">
                 <div className="py-4 px-2">
 
-                    <div className="-mx-2 mb-2">
+                    <div className="-ml-2 mb-2">
                         {responses.map(response => (
-                            <button
+                            <Button
                                 key={response.code}
-                                className="px-4 py-2 bg-gray-700 mx-2 text-white cursor-pointer hover:bg-gray-900 rounded"
+                                className="ml-2"
                             >
                                 <span className={`mr-2 text-${map[response.code[0]]}-500`}>&#x25C9;</span>
                                 {response.code}
-                            </button>
+                            </Button>
                         ))}
                     </div>
 
