@@ -37,7 +37,13 @@ function Call ({ call, className }) {
                         <div className={`p-2 rounded-l bg-${color}-300 text-${color}-800 font-medium`}>{call.method}</div>
                         <div className={`p-2 rounded-r bg-${color}-200 text-${color}-800 flex-grow flex flex-row`}>
                             <span className="flex-grow">{call.name}</span>
-                            <span className="text-xs self-center">{description}</span>
+                            {
+                                description.length < 50 ? (
+                                    <span className="text-xs self-center">{description}</span>
+                                ) : (
+                                    <span className="self-center font-medium cursor-pointer">&#9432;</span>
+                                )
+                            }
                         </div>
                     </div>
 
