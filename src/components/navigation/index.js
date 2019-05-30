@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function stripSlashFromName(name) {
     return name.indexOf('/') === 0 ? name.substring(1) : name;
@@ -21,21 +21,27 @@ function Navigation ({ api }) {
 
             <div className="pl-6 pb-8">
                 <span className="font-semibold text-gray-600">Welcome</span>
-                <Link
+                <NavLink
+                    exact
                     className="block text-gray-600 hover:text-gray-800 hover:pl-1 transition-fast"
+                    activeClassName="pl-1 border-l-2 border-gray-800"
                     to="/"
                 >
                     Introduction
-                </Link>
+                </NavLink>
             </div>
 
             <ul className="list-reset">
                 <li className="pl-6 font-semibold text-gray-600">Reference</li>
                 {resources.map(resource => (
                     <li key={resource.name} className="py-1 pl-6">
-                        <Link to={resource.url} className="text-gray-600 hover:text-gray-800 hover:pl-1 transition-fast">
+                        <NavLink
+                            to={resource.url}
+                            className="text-gray-600 hover:text-gray-800 hover:pl-1 transition-fast"
+                            activeClassName="pl-1 border-l-2 border-gray-800"
+                        >
                             {stripSlashFromName(resource.name)}
-                        </Link>
+                        </NavLink>
                     </li>
                 ))}
 

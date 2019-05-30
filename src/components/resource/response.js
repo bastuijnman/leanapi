@@ -27,7 +27,7 @@ function Response ({ response, ...props }) {
                         </pre>
                     </div>
                 ) : (
-                    <div className="text-white font-mono border-l-4 pl-2 border-transparent">An empty body will be returned</div>
+                    <div className="text-white font-mono border-l-4 pl-2 border-transparent">An empty body will be returned, or there is no example response available</div>
                 )
             }
         </>
