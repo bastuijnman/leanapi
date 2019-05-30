@@ -26,7 +26,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
-        fetch('api.json').then((response) => {
+        fetch('/api.json').then((response) => {
             return response.json();
         }).then((api) => {
             this.setState({
@@ -51,7 +51,7 @@ class App extends React.Component {
                             <Navigation api={api} />
                         </div>
                         <Route exact path="/" component={Introduction} />
-                        <Route path="/:path" component={Resource} />
+                        <Route path="/*" component={Resource} />
                     </div>
                 </ApiContext.Provider>
             </Router>

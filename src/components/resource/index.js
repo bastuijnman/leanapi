@@ -4,13 +4,12 @@ import NotFound from '../not-found';
 import Call from './call';
 
 function findResource (path, resources = []) {
-
     for (let resource of resources) {
         if (resource.url === path) {
             return resource;
         }
 
-        if (resource.children > 0) {
+        if (resource.children.length > 0) {
             let found = findResource(path, resource.children);
 
             if (found) {
