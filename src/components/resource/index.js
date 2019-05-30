@@ -36,13 +36,13 @@ function Resource ({ match }) {
             <div className="flex flex-col w-9/12 min-h-screen bg-gray-100">
 
                 <div className={`flex flex-row ${!calls.length && 'flex-grow'}`}>
-                    <div className="w-2/3 flex-grow">
+                    <div className="w-7/12 flex-grow">
                         <div className="p-4 text-gray-800">
                             <h1 className="text-5xl">{name}</h1>
                             <p>{description}</p>
                         </div>
                     </div>
-                    <div className="w-1/3 flex-grow bg-gray-800"></div>
+                    <div className="w-5/12 flex-grow bg-gray-800"></div>
                 </div>
 
                 {calls.map((call, index, arr) => (
