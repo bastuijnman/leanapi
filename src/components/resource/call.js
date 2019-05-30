@@ -31,13 +31,14 @@ function Call ({ call, className }) {
                 <div className="p-4">
 
                     <div className="flex flex-column">
-                        <div className={`p-2 rounded-l bg-${color}-300 text-white font-medium`}>{call.method}</div>
-                        <div className={`p-2 rounded-r bg-${color}-200 text-gray-800 flex-grow`}>{call.name}</div>
+                        <div className={`p-2 rounded-l bg-${color}-300 text-${color}-800 font-medium`}>{call.method}</div>
+                        <div className={`p-2 rounded-r bg-${color}-200 text-${color}-800 flex-grow flex flex-row`}>
+                            <span className="flex-grow">{call.name}</span>
+                            <span className="text-xs self-center">{description}</span>
+                        </div>
                     </div>
 
-                    <p>{description}</p>
-
-                    <p className="mt-4 mb-2 font-bold text-gray-900">Headers</p>
+                    <p className={`mb-2 mt-4 font-medium text-gray-900 border-l-4 pl-2 border-gray-300`}>Headers</p>
                     {headers.map(header => (
                         <div key={header.name} className="mb-8 text-gray-700">
                             <pre className="text-xs bg-gray-200 border border-gray-300 inline-block p-1 px-2">{header.name}</pre>
