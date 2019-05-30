@@ -71,9 +71,9 @@ function Call ({ call, className }) {
                     </div>
 
                     {/* Render active response */}
-                    <div className="bg-gray-900 rounded p-1 text-white overflow-x-scroll text-xs">
+                    <div className="bg-gray-900 rounded p-2 text-white overflow-x-scroll text-xs">
                         <pre>
-                            {activeResponse.examples.map(example => JSON.stringify(JSON.parse(example.body), null, 4))}
+                            {activeResponse.examples.map(example => example.body)}
                         </pre>
                     </div>
 
