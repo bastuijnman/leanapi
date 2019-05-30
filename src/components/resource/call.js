@@ -45,7 +45,7 @@ function Call ({ call, className }) {
                             {header.required && <span className="float-right text-gray-600">REQUIRED</span>}
 
                             <p className="text-sm">{header.description}</p>
-                            <p className="text-sm"><strong>Example:</strong> {header.example}</p>
+                            <p className="text-sm break-all"><strong>Example:</strong> {header.example}</p>
                         </div>
                     ))}
 
@@ -60,6 +60,7 @@ function Call ({ call, className }) {
                             <Button
                                 key={response.code}
                                 variant="primary"
+                                active={activeResponse === response}
                                 onClick={() => setActiveResponse(response)}
                                 className="ml-2"
                             >
