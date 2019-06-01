@@ -32,7 +32,7 @@ function Navigation ({ api }) {
                 <input
                     type="text"
                     placeholder="Search API"
-                    className="block w-full rounded p-2"
+                    className="block w-full rounded text-md p-2 px-4 mt-5 outline-none focus:shadow-outline"
                 />
             </div>
 
