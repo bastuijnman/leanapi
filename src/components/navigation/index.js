@@ -56,7 +56,7 @@ function Navigation ({ api }) {
 
     return (
         <React.Fragment>
-            <div className="p-4 pb-8">
+            <div className="m-4 my-8 relative">
                 <input
                     type="text"
                     placeholder="Search API"
@@ -64,6 +64,15 @@ function Navigation ({ api }) {
                     value={searchTerm || ''}
                     className="block w-full rounded text-md p-2 px-4 mt-5 outline-none focus:shadow-outline"
                 />
+
+                {searchTerm && (
+                    <div
+                        className="absolute right-0 top-0 p-2 px-4 cursor-pointer"
+                        onClick={() => setSearchTerm(null)}
+                    >
+                        &times;
+                    </div>
+                )}
             </div>
 
             {searchTerm && (
