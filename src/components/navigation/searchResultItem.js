@@ -20,7 +20,7 @@ function SearchResultItem ({ history, item, onNavigate }) {
     return (
         <div
             onClick={onClick}
-            className="block cursor-pointer mb-4 text-sm text-gray-600"
+            className="block cursor-pointer mb-4 text-sm text-gray-600 transition-fast hover:pl-4"
         >
             <div>{item.url}</div>
             {item.calls.map(call => <CallHeading call={call} className="inline-block text-xs mr-1 rounded" withoutDescription />)}
