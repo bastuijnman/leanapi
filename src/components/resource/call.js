@@ -19,6 +19,16 @@ const map = {
     5: 'red',
 };
 
+function CallInfo ({info}) {
+    if (!info) {
+        return null;
+    }
+
+    if (info.length < 50) return <span className="text-xs self-center">{info}</span>;
+
+    return <span className="self-center font-medium cursor-pointer">&#9432;</span>;
+}
+
 function Call ({ call, className }) {
 
     const color = map[call.method.toLowerCase()] || 'purple';
@@ -37,13 +47,7 @@ function Call ({ call, className }) {
                         <div className={`p-2 rounded-l bg-${color}-300 text-${color}-800 font-medium`}>{call.method}</div>
                         <div className={`p-2 rounded-r bg-${color}-200 text-${color}-800 flex-grow flex flex-row`}>
                             <span className="flex-grow">{call.name}</span>
-                            {
-                                description.length < 50 ? (
-                                    <span className="text-xs self-center">{description}</span>
-                                ) : (
-                                    <span className="self-center font-medium cursor-pointer">&#9432;</span>
-                                )
-                            }
+                            <CallInfo info={description} />
                         </div>
                     </div>
 

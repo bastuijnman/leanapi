@@ -2,4 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Utility for creating transitions */
 .transition-fast { transition: all .2s ease!important; }
+
+/* Utility for displaying sub navigation */
+.nav-active + .nav-sub { display: block!important; }

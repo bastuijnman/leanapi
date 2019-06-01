@@ -5,8 +5,25 @@ function stripSlashFromName(name) {
     return name.indexOf('/') === 0 ? name.substring(1) : name;
 }
 
-function Navigation ({ api }) {
+function SubNav ({ endpoints }) {
+    return (
+        <ul className="hidden nav-sub text-sm pl-4 text-gray-600">
+            {endpoints.map(endpoint => (
+            <li key={endpoint.url} className="my-2">
+                <NavLink
+                    to={endpoint.url}
+                    activeClassName="text-gray-800 nav-active"
+                >
+                    {endpoint.name}
+                </NavLink>
+                {endpoint.children.length > 0 && <SubNav endpoints={endpoint.children} />}
+            </li>
+            ))}
+        </ul>
+    )
+}
 
+function Navigation ({ api }) {
     const { resources } = api;
 
     return (
@@ -24,7 +41,7 @@ function Navigation ({ api }) {
                 <NavLink
                     exact
                     className="block text-gray-600 hover:text-gray-800 hover:pl-1 transition-fast"
-                    activeClassName="pl-1 border-l-2 border-gray-800"
+                    activeClassName="pl-1 border-l-2 text-gray-800 border-gray-800"
                     to="/"
                 >
                     Introduction
@@ -38,10 +55,13 @@ function Navigation ({ api }) {
                         <NavLink
                             to={resource.url}
                             className="text-gray-600 hover:text-gray-800 hover:pl-1 transition-fast"
-                            activeClassName="pl-1 border-l-2 border-gray-800"
+                            activeClassName="pl-1 border-l-2 text-gray-800 border-gray-800 nav-active"
                         >
                             {stripSlashFromName(resource.name)}
                         </NavLink>
+                        <SubNav
+                            endpoints={resource.children}
+                        />
                     </li>
                 ))}
 

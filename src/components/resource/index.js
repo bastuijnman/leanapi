@@ -24,11 +24,12 @@ function findResource (path, resources = []) {
 function Resource ({ match }) {
     const api = useContext(ApiContext);
     const resource = findResource(match.url, api.resources);
-    const { name, description, calls } = resource;
 
     if (!resource) {
         return <NotFound />;
     }
+
+    const { name, description, calls } = resource;
 
     return (
         <React.Fragment>
