@@ -2,38 +2,11 @@ import React, { useState } from 'react';
 
 import Button from '../button';
 import Response from './response';
-
-const map = {
-
-    // Method color maps
-    get: 'green',
-    post: 'blue',
-    put: 'orange',
-    patch: 'teal',
-    delete: 'red',
-
-    // Status color maps
-    2: 'green',
-    3: 'yellow',
-    4: 'orange',
-    5: 'red',
-};
-
-function CallInfo ({info}) {
-    if (!info) {
-        return null;
-    }
-
-    if (info.length < 50) return <span className="text-xs self-center">{info}</span>;
-
-    return <span className="self-center font-medium cursor-pointer">&#9432;</span>;
-}
+import CallHeading, { colorMap } from './call/heading';
 
 function Call ({ call, className }) {
 
-    const color = map[call.method.toLowerCase()] || 'purple';
-    const { responses, description, headers } = call;
-
+    const { responses, headers } = call;
     const [ activeResponse, setActiveResponse ] = useState(responses[0]);
 
     return (
@@ -43,13 +16,7 @@ function Call ({ call, className }) {
             <div className="w-7/12 flex-grow">
                 <div className="p-4">
 
-                    <div className="flex flex-column">
-                        <div className={`p-2 rounded-l bg-${color}-300 text-${color}-800 font-medium`}>{call.method}</div>
-                        <div className={`p-2 rounded-r bg-${color}-200 text-${color}-800 flex-grow flex flex-row`}>
-                            <span className="flex-grow">{call.name}</span>
-                            <CallInfo info={description} />
-                        </div>
-                    </div>
+                    <CallHeading call={call} />
 
                     <p className={`mb-2 mt-4 font-medium text-gray-900 border-l-4 pl-2 border-gray-300`}>Headers</p>
                     {headers.map(header => (
@@ -80,7 +47,7 @@ function Call ({ call, className }) {
                                 onClick={() => setActiveResponse(response)}
                                 className="ml-2"
                             >
-                                <span className={`mr-2 text-${map[response.code[0]]}-500`}>&#x25C9;</span>
+                                <span className={`mr-2 text-${colorMap[response.code[0]]}-500`}>&#x25C9;</span>
                                 {response.code}
                             </Button>
                         ))}

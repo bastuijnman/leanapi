@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
+import CallHeading from '../resource/call/heading';
+
 function SearchResultItem ({ history, item, onNavigate }) {
 
     if (!item.calls.length) {
@@ -21,7 +23,7 @@ function SearchResultItem ({ history, item, onNavigate }) {
             className="block cursor-pointer mb-4 text-sm text-gray-600"
         >
             <div>{item.url}</div>
-            {item.calls.map(call => <div className="inline-block text-xs p-1 mr-1 bg-gray-500">{call.method}</div>)}
+            {item.calls.map(call => <CallHeading call={call} className="inline-block text-xs mr-1 rounded" withoutDescription />)}
         </div>
     );
 }
