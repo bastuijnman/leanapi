@@ -42,8 +42,7 @@ module.exports = {
         let api = parser.loadApiSync(apiPath).expand(true);
 
         if (api.RAMLVersion() !== 'RAML10') {
-            console.log('Sorry, currently we only support RAML 1.0');
-            process.exit(1);
+            console.log('WARNING: We only officially support RAML 1.0! Using RAML 0.8 may result in errors.');
         }
 
         return {
