@@ -33,7 +33,7 @@ function Resource ({ match }) {
 
     return (
         <React.Fragment>
-            <div className="flex flex-col flex-grow min-h-screen bg-gray-100">
+            <div className="flex flex-col flex-grow min-h-screen h-full bg-gray-100">
 
                 <div className={`flex flex-row ${!calls.length && 'flex-grow'}`}>
                     <div className="w-7/12 flex-grow">
