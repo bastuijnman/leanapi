@@ -30,7 +30,7 @@ You can specify the ouptput folder by doing the following:
 leanapi -o docs path/to/api/definition.json
 ```
 *Or:* `--output`  
-*Default:* api-docs
+*Default:* `api-docs`
 
 **Development server**  
 You can let leanAPI spin up a development server that will allow you to check/develop your api docs without letting it generate the actual files.
