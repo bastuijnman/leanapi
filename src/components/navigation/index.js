@@ -5,6 +5,10 @@ import Fuse from 'fuse.js';
 import SearchResultItem from './searchResultItem';
 import SubNav from './subNavigation';
 
+export function normalizeResourcePath(path) {
+    return path.toLowerCase().replace(/[^\w\/\-]+/g, '');
+}
+
 function stripSlashFromName(name) {
     return name.indexOf('/') === 0 ? name.substring(1) : name;
 }
@@ -88,7 +92,7 @@ function Navigation ({ api }) {
                     {resources.map(resource => (
                         <li key={resource.name} className="py-1 pl-6">
                             <NavLink
-                                to={resource.url}
+                                to={normalizeResourcePath(resource.url)}
                                 className="text-gray-600 hover:text-gray-800 hover:pl-1 transition-fast"
                                 activeClassName="pl-1 border-l-2 text-gray-800 border-gray-800 nav-active"
                             >

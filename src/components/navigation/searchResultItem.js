@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import CallHeading from '../resource/call/heading';
+import { normalizeResourcePath } from './index';
 
 function SearchResultItem ({ history, item, onNavigate }) {
 
@@ -10,7 +11,7 @@ function SearchResultItem ({ history, item, onNavigate }) {
     }
 
     const onClick = () => {
-        history.push(item.url);
+        history.push(normalizeResourcePath(item.url));
 
         if (onNavigate) {
             onNavigate();

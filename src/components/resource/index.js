@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import ApiContext from '../../context/api';
 import NotFound from '../not-found';
 import Call from './call';
+import { normalizeResourcePath } from '../navigation';
 
 function findResource (path, resources = []) {
     for (let resource of resources) {
-        if (resource.url === path) {
+        if (normalizeResourcePath(resource.url) === path) {
             return resource;
         }
 
@@ -42,7 +43,12 @@ function Resource ({ match }) {
                             <p>{description}</p>
                         </div>
                     </div>
-                    <div className="w-5/12 flex-grow bg-gray-800"></div>
+                    <div className="w-5/12 flex-grow bg-gray-800">
+                        <div className="p-4 text-gray-300">
+                            <h2 className="text-5xl">Responses</h2>
+                            <p>All responses for {name}.</p>
+                        </div>
+                    </div>
                 </div>
 
                 {calls.map((call, index, arr) => (

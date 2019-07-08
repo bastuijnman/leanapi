@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { normalizeResourcePath } from './index';
 
 function SubNav ({ endpoints }) {
     return (
@@ -7,7 +8,7 @@ function SubNav ({ endpoints }) {
             {endpoints.map(endpoint => (
             <li key={endpoint.url} className="my-2">
                 <NavLink
-                    to={endpoint.url}
+                    to={normalizeResourcePath(endpoint.url)}
                     activeClassName="text-gray-800 nav-active"
                 >
                     {endpoint.name}
