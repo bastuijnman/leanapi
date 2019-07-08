@@ -7,3 +7,6 @@
 
 /* Utility for displaying sub navigation */
 .nav-active + .nav-sub { display: block!important; }
+
+/* Override for appearance none, only prefixed util needed, so postcss/autoprefixer would be overkill */
+.appearance-none { appearance: none; -moz-appearance: none; -webkit-appearance: none; }

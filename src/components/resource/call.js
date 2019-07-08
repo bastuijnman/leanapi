@@ -3,12 +3,24 @@ import React, { useState } from 'react';
 import Button from '../button';
 import Response from './response';
 import CallHeading, { colorMap } from './call/heading';
+import Dropdown from '../dropdown';
+
+function getBodySelectorOptions(values) {
+    return values.map((value, index) => ({
+        value: index,
+        label: value.name
+    }));
+}
 
 function Call ({ call, className }) {
 
     const { responses, headers, body } = call;
     const [ activeResponse, setActiveResponse ] = useState(responses[0]);
     const [ activeBodyIndex, setActiveBodyIndex ] = useState(0);
+
+    const onBodySelectorChange = (evnt) => {
+        setActiveBodyIndex(evnt.target.value);
+    };
 
     return (
         <div className={`flex flex-row ${className}`}>
@@ -33,10 +45,16 @@ function Call ({ call, className }) {
 
                     {body.length > 0 &&
                     <>
-                        <p className={`mb-2 mt-4 font-medium text-gray-900 border-l-4 pl-2 border-gray-300`}>Body</p>
-                        <div className="p-3 rounded bg-gray-300 text-gray-900 font-mono">
+                        <p className="mb-2 mt-4 font-medium text-gray-900 border-l-4 pl-2 border-gray-300 flex flex-row items-center">
+                            <span className="flex-grow">Body</span>
+                            {body.length > 1 &&
+                            <Dropdown options={getBodySelectorOptions(body)} onChange={onBodySelectorChange} />
+                            }
+                        </p>
+
+                        <pre className="p-3 rounded bg-gray-300 text-gray-900 font-mono text-xs">
                             {body[activeBodyIndex].example}
-                        </div>
+                        </pre>
                     </>
                     }
                 </div>
