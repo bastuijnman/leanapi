@@ -1,58 +1,65 @@
 # LeanAPI
 
-LeanAPI generates a nice UI for your API specifications.
+LeanAPI is a tool that allows you to build beautiful (arguably) documentation for multiple API definition languages. 
 
-## Supported API specification formats:
-* [RAML 1.0]( https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/)
+## Installation
 
-## Usage
+You can install leanAPI either as a local dependency for your project or globally if you just want to use it as a development tool.
 
-Install using the following command:
+**Local installation**  
+Run `npm install --save-dev leanapi` within your project to install leanAPI as a dependency. You can your CI system generate the documentation by running:
+
 ```
-npm install -g leanapi
-```
-
-Generate documentation using the following command:
-```
-leanapi path/to/your/api/definition.raml
+./node_modules/.bin/leanapi path/to/api/definition.json
 ```
 
-This will generate a new folder called `api-docs` where all of the neccesary files have been generated. You can deploy this folder to any webserver.
+Deploy the resulting docs folder and you have continuously updated documentation!
 
-### Options
+**Global installation**  
+Run `npm install -g leanapi` to install leanAPI as a globally available tool on your machine. You can then use it through your terminal by running:
 
-#### Output folder
-You can specify the ouptput folder by using `-o` or `--output`, example:
 ```
-leanapi -o docs path/to/your/api/definition.raml
+leanapi path/to/api/definition.json
 ```
 
-#### Serve
-You can dynamically serve your API (without generating the API output) by using `-s` or `--serve`, example:
-```
-leanapi -s path/to/your/api/definition.raml
-```
-This will also start watching in your definition path (e.g. `path/to/your/api`), so when you make a change to any file in that folder the api definition will update automatically and any open browser window will automatically refresh.
+## Options
 
-##### Port
-You can set the port on which the API server will be listening (default is `9876`) by using `-p` or `--port`
+**Output folder**  
+You can specify the ouptput folder by doing the following:
 ```
-leanapi -s -p 9090 path/to/your/api/definition.raml
+leanapi -o docs path/to/api/definition.json
 ```
-This will make the server listen on port `9090`
+*Or:* `--output`  
+*Default:* api-docs
 
-#### Help
-You can prompt the help info by running:
+**Development server**  
+You can let leanAPI spin up a development server that will allow you to check/develop your api docs without letting it generate the actual files.
+
+It will start watching the definition path, so any change to a file within that folder will automatically update your docs without you having to refresh.
+
+Usage:
+```
+leanapi -s path/to/api/definition.json
+```
+*Or:* `--serve`
+
+**Development server port**  
+When serving from the development server you can specify the port you want leanAPI to use:
+
+```
+leanapi -s -p 8080 path/to/api/definition.json
+```
+
+*Or:* `--port`  
+*Default:* `9876`
+
+**Help**  
+You can prompt the help screen by running:
 ```
 leanapi -h
-# or
-leanapi --help
 ```
 
-#### Version
-You can check the leanAPI version by running:
-```
-leanapi -V
-# or
-leanapi --version
-```
+*Or:* `--help`
+
+## License
+The LeanAPI source code is licensed under the [MIT License](https://github.com/bastuijnman/leanapi/blob/master/LICENSE).
