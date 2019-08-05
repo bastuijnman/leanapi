@@ -36,7 +36,7 @@ function CallHeading ({ call, withoutDescription, className = '' }) {
 
     return (
         <div className="flex flex-column">
-            <div className={`p-2 rounded-l bg-${color}-300 text-${color}-800 font-medium`}>{method}</div>
+            <div className={`p-2 rounded-l bg-${color}-300 text-${color}-800 font-medium`}>{method.toUpperCase()}</div>
             <div className={`p-2 rounded-r bg-${color}-200 text-${color}-800 flex-grow flex flex-row`}>
                 <span className="flex-grow">{name}</span>
                 <CallInfo info={description} />

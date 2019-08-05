@@ -4,6 +4,7 @@ import Button from '../button';
 import Response from './response';
 import CallHeading, { colorMap } from './call/heading';
 import Dropdown from '../dropdown';
+import ParameterBag from './parameterBag';
 
 function getBodySelectorOptions(values) {
     return values.map((value, index) => ({
@@ -31,17 +32,9 @@ function Call ({ call, className }) {
 
                     <CallHeading call={call} />
 
-                    <p className={`mb-2 mt-4 font-medium text-gray-900 border-l-4 pl-2 border-gray-300`}>Headers</p>
-                    {headers.map(header => (
-                        <div key={header.name} className="mb-8 text-gray-700">
-                            <pre className="text-xs bg-gray-200 border border-gray-300 inline-block p-1 px-2">{header.name}</pre>
-                            <pre className="text-xs ml-2 inline-block">{header.type.join(', ')}</pre>
-                            {header.required && <span className="float-right text-gray-600">REQUIRED</span>}
-
-                            <p className="text-sm">{header.description}</p>
-                            <p className="text-sm break-all"><strong>Example:</strong> <span className="font-mono">{header.example}</span></p>
-                        </div>
-                    ))}
+                    {headers.length > 0 &&
+                        <ParameterBag title="Headers" parameters={headers} />
+                    }
 
                     {body.length > 0 &&
                     <>

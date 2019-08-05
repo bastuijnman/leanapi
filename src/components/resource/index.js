@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ApiContext from '../../context/api';
 import NotFound from '../not-found';
 import Call from './call';
+import ParameterBag from './parameterBag';
 import { normalizeResourcePath } from '../navigation';
 
 function findResource (path, resources = []) {
@@ -30,7 +31,7 @@ function Resource ({ match }) {
         return <NotFound />;
     }
 
-    const { name, description, calls } = resource;
+    const { name, description, calls, parameters } = resource;
 
     return (
         <React.Fragment>
@@ -41,6 +42,10 @@ function Resource ({ match }) {
                         <div className="p-4 text-gray-800">
                             <h1 className="text-5xl">{name}</h1>
                             <p>{description}</p>
+
+                            {parameters.length > 0 &&
+                                <ParameterBag title="Path parameters" parameters={parameters} />
+                            }
                         </div>
                     </div>
                     <div className="w-5/12 flex-grow bg-gray-800">
