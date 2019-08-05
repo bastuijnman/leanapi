@@ -10,7 +10,7 @@ let server = require('./server');
 let build = require('./build');
 
 app
-    .version('1.0.0')
+    .version('2.0.0')
     .usage('[options] <file>')
     .option('-o, --output <path>', 'The output folder', './api-docs')
     .option('-s, --serve', 'Whether you want to serve dynamically instead of building', false)

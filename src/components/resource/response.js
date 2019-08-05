@@ -17,7 +17,6 @@ function Response ({ response, ...props }) {
             </>
             }
 
-
             <div className="text-white border-l-4 border-gray-900 pl-2 mb-2">BODY</div>
             {
                 examples.length > 0 ? (
