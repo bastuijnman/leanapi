@@ -2,6 +2,10 @@ import React from 'react';
 
 function Response ({ response, ...props }) {
 
+    if (!response) {
+        return <div className="text-white font-mono border-l-4 pl-2 border-transparent">No responses available</div>;
+    }
+
     const { headers, examples } = response;
 
     return (
