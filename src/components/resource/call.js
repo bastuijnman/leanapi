@@ -15,7 +15,7 @@ function getBodySelectorOptions(values) {
 
 function Call ({ call, className }) {
 
-    const { responses, headers, body } = call;
+    const { responses, headers, query, body } = call;
     const [ activeResponse, setActiveResponse ] = useState(responses[0]);
     const [ activeBodyIndex, setActiveBodyIndex ] = useState(0);
 
@@ -34,6 +34,10 @@ function Call ({ call, className }) {
 
                     {headers.length > 0 &&
                         <ParameterBag title="Headers" parameters={headers} />
+                    }
+
+                    {query.length > 0 &&
+                        <ParameterBag title="Query Parameters" parameters={query} />
                     }
 
                     {body.length > 0 &&
