@@ -31,14 +31,14 @@ const transformOperationToCall = (operation) => {
         query: getParametersFromObject(operation.request, 'queryParameters'),
         headers: getParametersFromObject(operation.request, 'headers'),
         responses: operation.responses.map(transformResponse),
-        body: operation.request.payloads.map(payload => {
+        body: operation.request ? operation.request.payloads.map(payload => {
             return {
                 name: payload.mediaType.value(),
 
                 // TODO: See if it's a valid case to concatenate actual example bodies
                 example: payload.schema.examples.map(example => example.value.value()).join('\n\n OR \n\n')
             }
-        })
+        }) : []
     };
 };
 
