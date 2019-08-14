@@ -1,175 +1,128 @@
-'use strict';
+const wap = require('webapi-parser').WebApiParser;
 
-let parser = require('raml-1-parser');
+/**
+ * Transform a parsed Endpoint into a LeanAPI resource object.
+ * 
+ * @param {*} endpoint 
+ */
+const transformEndpointToResource = (endpoint) => {
+    return {
+        name: endpoint.relativePath,
+        description: endpoint.description.value(),
+        url: endpoint.path.value(),
+        parameters: getParametersFromObject(endpoint, 'parameters'),
+        calls: endpoint.operations.map(transformOperationToCall),
 
-const checkIfGetterIsNeeded = function (checkParam) {
-    return checkParam && typeof checkParam === 'object';
+        // Children is always empty as they're filled at the end of the transform process
+        children: []
+    }
 };
 
-let getRequestHeaders = function (request, callback) {
-    let headers = [].concat(request.headers());
+/**
+ * Transform a parsed Operation into a LeanAPI call object.
+ * 
+ * @param {*} operation 
+ */
+const transformOperationToCall = (operation) => {
+    return {
+        method: operation.method.value(),
+        name: operation.name.value(),
+        description: operation.description.value(),
+        query: getParametersFromObject(operation.request, 'queryParameters'),
+        headers: getParametersFromObject(operation.request, 'headers'),
+        responses: operation.responses.map(transformResponse),
+        body: operation.request.payloads.map(payload => {
+            return {
+                name: payload.mediaType.value(),
+                example: payload.schema.examples.map(example => example.value.value()).join('\n\n OR \n\n')
+            }
+        })
+    };
+};
 
-    request.securedBy().forEach((scheme) => {
-        if (!scheme.securityScheme()) {
-            console.log('WARNING: Detected security scheme without body while adding headers.');
-            return;
+/**
+ * Takes a set of payloads and transforms all their examples to the LeanAPI structure
+ * of working with request/response body examples.
+ * 
+ * @param {*} payloads 
+ */
+const transformExamplesForPayloads = (payloads) => {
+    const examples = payloads.map(payload => payload.schema.examples).flat();
+    return examples.map(example => {
+        return { body: example.value.value() };
+    });
+};
+
+/**
+ * Transform a parsed Response object into a LeanAPI response object.
+ * @param {*} response 
+ */
+const transformResponse = (response) => {
+    return {
+        code: response.statusCode.value(),
+        description: response.description.value(),
+        headers: getParametersFromObject(response, 'headers'),
+        examples: transformExamplesForPayloads(response.payloads)
+    };
+}
+
+/**
+ * Get a parameter bag object from the given object and it's property. This can be used
+ * for example to extract headers or query parameters.
+ * 
+ * @param {*} obj 
+ * @param {string} parameterField 
+ */
+const getParametersFromObject = (obj, parameterField) => {
+    if (!obj) {
+        return [];
+    }
+    
+    return obj[parameterField].map(parameter => {
+        return {
+            name: parameter.name.value(),
+            description: parameter.description.value(),
+            type: [],
+            example: parameter.schema.examples.map(example => example.value).join(','),
+            required: parameter.required.value()
         }
-        headers = headers.concat(scheme.securityScheme().describedBy().headers());
     });
-
-    return headers.map(callback);
-};
-
-let getRequestResponses = function (request, callback) {
-    let responses = [].concat(request.responses());
-
-    request.securedBy().forEach((scheme) => {
-        if (!scheme.securityScheme()) {
-            console.log('WARNING: Detected security scheme without body while adding responses.');
-            return;
-        }
-        responses = responses.concat(scheme.securityScheme().describedBy().responses());
-    });
-
-    return responses.map(callback).sort(function (a, b) {
-        return a.code - b.code;
-    });
-};
+}
 
 module.exports = {
 
-    parse (apiPath) {
-        let api = parser.loadApiSync(apiPath).expand(true);
+    parse: async function (path) {
+        const parsed = await wap.raml10.parse(`file://${path}`);
+        const resolved = await wap.raml10.resolve(parsed);
+        const api = resolved.encodes;
 
-        if (api.RAMLVersion() !== 'RAML10') {
-            console.log('WARNING: We only officially support RAML 1.0! Using RAML 0.8 may result in errors.');
-        }
+        const resources = api.endPoints.map(transformEndpointToResource);
 
-        return {
-            title: api.title(),
-            description: this.getHomepage(api.documentation()),
-            version: api.version(),
-            resources: this.parseResources(api.resources())
-        };
-    },
+        /**
+         * At this point in time the API resources are one giant flat list. We need to identify
+         * parent resources and pass the child resources into them.
+         * 
+         * Afterwards child resources are removed from the root.
+         */
+        const removals = [];
+        resources.forEach(resource => {
 
-    parseResources (resources) {
-        return resources.map((item) => {
-            let description = item.description();
-            if (checkIfGetterIsNeeded(description) ){
-                description = description.value();
-            }
-
-            return {
-                name: item.displayName(),
-                description: description,
-                url: item.completeRelativeUri(),
-                parameters: item.absoluteUriParameters().map(this.parseTypeDeclaration, this),
-                calls: item.methods().map(this.parseCall, this),
-                children: this.parseResources(item.resources())
-            };
-        });
-    },
-
-    parseCall (call) {
-        let description = call.description();
-        if (checkIfGetterIsNeeded(description)) {
-            description = description.value();
-        }
-
-        return {
-            method: call.method().toUpperCase(),
-            name: call.parentResource().completeRelativeUri(),
-            description: description,
-            query: call.queryParameters().map(this.parseTypeDeclaration),
-            headers: getRequestHeaders(call, this.parseTypeDeclaration),
-            responses: getRequestResponses(call, this.parseResponse.bind(this)),
-            body: call.body().map((body) => {
-                let description = body.description();
-                let example = body.example();
-
-                if (checkIfGetterIsNeeded(description)) {
-                    description = description.value();
-                }
-
-                if (checkIfGetterIsNeeded(example)) {
-                    example = example.value();
-                }
-
-                return {
-                    name: body.name(),
-                    description: description,
-                    example: example,
-                }
-            })
-        };
-    },
-
-    parseResponse (response) {
-        let description = response.description();
-        if (checkIfGetterIsNeeded(description)) {
-            description = description.value()
-        }
-
-        return {
-            code: response.code().value(),
-            description: description,
-            headers: response.headers().map(this.parseTypeDeclaration),
-            examples: response.body().map((body) => {
-                let description = body.description();
-                let example = body.example();
-
-                if (checkIfGetterIsNeeded(description)) {
-                    description = description.value();
-                }
-
-                if (checkIfGetterIsNeeded(example)) {
-                    example = example.value();
-                }
-
-                return {
-                    description: description,
-                    body: example,
-                }
-            })
-        }
-    },
-
-    parseTypeDeclaration (parameter) {
-        let description = parameter.description(),
-            example = parameter.example();
-
-        if (checkIfGetterIsNeeded(description)) {
-            description = description.value();
-        }
-
-        if (checkIfGetterIsNeeded(example)) {
-            example = example.value();
-        }
-
-        return {
-            name: parameter.name(),
-            description: description,
-            type: parameter.type(),
-            example: example,
-            required: parameter.required()
-        }
-    },
-
-    getHomepage (descriptions) {
-        let description = null;
-
-        descriptions.forEach((desc) => {
-            if (desc.title().toLowerCase() === 'home') {
-                description = desc.content();
+            // TODO: figure out if this logic is actually valid
+            const parent = resources.find(potentialParent => (potentialParent.url + resource.name) === resource.url);
+            if (parent) {
+                parent.children.push(resource);
+                removals.push(resource.url);
             }
         });
+        
+        return {
+            title: api.name.value(),
+            description: api.description.value(),
+            version: api.version.value(),
 
-        if (checkIfGetterIsNeeded(description)) {
-            description = description.value();
-        }
-
-        return description;
+            // Set resources minus the children to be removed from the root
+            resources: resources.filter(resource => removals.indexOf(resource.url) === -1)
+        };
     }
 
-};
+}

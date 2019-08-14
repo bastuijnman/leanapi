@@ -48,7 +48,7 @@ module.exports = function (opts = {}) {
     const server = http.createServer(handleRequest);
     const io = socketIO(server);
 
-    server.listen(opts.port || port, (err) => {
+    server.listen(opts.port || port, async (err) => {
         if (err) {
             console.log('Something went wrong when trying to start the LeanAPI server');
             process.exit(1);
@@ -56,8 +56,16 @@ module.exports = function (opts = {}) {
 
         console.log(`LeanAPI server is listening on port ${server.address().port}`);
 
+        let api;
+        try {
+            api = await parser(opts.apiPath);
+        } catch (e) {
+            console.error(e);
+            process.exit(1);
+        }
+
         responses = {
-            api: parser(opts.apiPath),
+            api,
             index: fs.readFileSync(__dirname + '/frontend/index.server.html'),
             js: build.getJsBuildStream(__dirname + '/frontend/app.js')
         };
@@ -73,8 +81,8 @@ module.exports = function (opts = {}) {
     fs.watch(path.dirname(opts.apiPath), {
         persistent: true,
         recursive: true
-    }, () => {
-        let api = parser(opts.apiPath);
+    }, async () => {
+        let api = await parser(opts.apiPath);
         io.emit('changed', api);
 
         // Update our cached response value

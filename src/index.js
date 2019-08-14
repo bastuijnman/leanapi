@@ -15,6 +15,7 @@ app
     .option('-o, --output <path>', 'The output folder', './api-docs')
     .option('-s, --serve', 'Whether you want to serve dynamically instead of building', false)
     .option('-p, --port [number]', 'Which port you want to use for the dynamic server')
+    .option('-d, --deployPath <path>', 'Will be taken as a base for the router, use when deploying to a sub-folder', null)
     .parse(process.argv);
 
 if (process.argv.length <= 2) {
@@ -32,9 +33,7 @@ if (app.serve) {
 }
 
 let outputPath = path.resolve(process.cwd(), app.output);
-let result = parser(apiPath);
-
-mkdirp(outputPath, function (err) {
+mkdirp(outputPath, async function (err) {
     if (err) {
         throw new Error('Error while creating output path: ' + err.message);
     }
@@ -45,6 +44,7 @@ mkdirp(outputPath, function (err) {
         .pipe(fs.createWriteStream(outputPath + '/index.html'));
 
     // Copy API files
+    const result = await parser(apiPath);
     fs.open(outputPath + '/api.json', 'w', (err, handle) => {
         if (err) {
             throw new Error('Error while creating API file handle');

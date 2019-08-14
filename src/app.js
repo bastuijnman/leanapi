@@ -26,7 +26,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
-        fetch('/api.json').then((response) => {
+        fetch('api.json').then((response) => {
             return response.json();
         }).then((api) => {
             this.setState({
@@ -44,7 +44,7 @@ class App extends React.Component {
 
         // Render actual application
         return (
-            <Router>
+            <Router basename={location.pathname}>
                 <ApiContext.Provider value={api}>
                     <div className="flex max-w-full">
                         <div className="w-1/5 min-h-screen bg-gray-300">
