@@ -93,9 +93,14 @@ const getParametersFromObject = (obj, parameterField) => {
 
 module.exports = {
 
-    parse: async function (path) {
-        const parsed = await wap.raml10.parse(`file://${path}`);
-        const resolved = await wap.raml10.resolve(parsed);
+    SUPPORTED_PARSERS: {
+        RAML10: 'raml10',
+        OAS20: 'oas20'
+    },
+
+    parse: async function (path, parser) {
+        const parsed = await wap[parser].parse(`file://${path}`);
+        const resolved = await wap[parser].resolve(parsed);
         const api = resolved.encodes;
 
         const resources = api.endPoints.map(transformEndpointToResource);
