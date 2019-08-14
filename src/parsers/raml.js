@@ -34,6 +34,8 @@ const transformOperationToCall = (operation) => {
         body: operation.request.payloads.map(payload => {
             return {
                 name: payload.mediaType.value(),
+
+                // TODO: See if it's a valid case to concatenate actual example bodies
                 example: payload.schema.examples.map(example => example.value.value()).join('\n\n OR \n\n')
             }
         })
