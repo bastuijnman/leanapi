@@ -1,6 +1,12 @@
 # LeanAPI
 
+![LeanAPI screenshot](./repository/readme-top.png)
+
 LeanAPI is a tool that allows you to build beautiful (arguably) documentation for multiple API definition languages. 
+
+### Supported languages
+* RAML 1.0
+* OAS 2.0
 
 ## Installation
 
