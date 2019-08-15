@@ -1,6 +1,6 @@
 # LeanAPI
 
-![LeanAPI screenshot](./repository/readme-top.png)
+![LeanAPI screenshot](./repository/readme-top.jpg)
 
 LeanAPI is a tool that allows you to build beautiful (arguably) documentation for multiple API definition languages. 
 
