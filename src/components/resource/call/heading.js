@@ -23,7 +23,7 @@ function CallInfo ({info}) {
 
     if (info.length < 50) return <span className="text-xs self-center">{info}</span>;
 
-    return <span className="self-center font-medium cursor-pointer">&#9432;</span>;
+    return <span className="self-center font-medium cursor-pointer c-popover">&#9432;<span className="c-popover-content">{info}</span></span>;
 }
 
 function CallHeading ({ call, withoutDescription, className = '' }) {
