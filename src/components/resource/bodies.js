@@ -23,9 +23,22 @@ const themes = {
 export default function Bodies({ bodies, theme='light', title='Body' }) {
 
     const [ activeBodyIndex, setActiveBodyIndex ] = useState(0);
+    const [ activeTabIndex, setActiveTabIndex ] = useState(0);
     const onBodySelectorChange = (evnt) => {
         setActiveBodyIndex(evnt.target.value);
     };
+
+    // Only show tabs when we have both an example and schema
+    const hasTab = bodies[activeBodyIndex].example.length > 0 && bodies[activeBodyIndex].schema.length > 0;
+    
+    const tabs = [];
+    if (bodies[activeBodyIndex].example.length > 0) {
+        tabs.push(<pre key="example">{bodies[activeBodyIndex].example}</pre>);
+    }
+
+    if (bodies[activeBodyIndex].schema.length > 0) {
+        tabs.push(<Schema schema={bodies[activeBodyIndex].schema} />);
+    }
 
     return (
         <>
@@ -37,8 +50,14 @@ export default function Bodies({ bodies, theme='light', title='Body' }) {
             </p>
 
             <div className={`p-3 rounded font-mono text-xs ${themes[theme].content}`}>
-                {bodies[activeBodyIndex].example}
-                <Schema schema={bodies[activeBodyIndex].schema} />
+                {hasTab &&
+                <div className="w-full mb-4">
+                    <a onClick={() => setActiveTabIndex(0)} href="#" className={`inline-block w-1/2 p-4 text-center ${activeTabIndex === 0 ? 'bg-gray-800': ''}`}>Example</a>
+                    <a onClick={() => setActiveTabIndex(1)} href="#" className={`inline-block w-1/2 p-4 text-center ${activeTabIndex === 1 ? 'bg-gray-800': ''}`}>Schema</a>
+                </div>
+                }
+
+                {tabs[activeTabIndex]}
             </div>
         </>
     );
