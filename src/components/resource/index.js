@@ -58,9 +58,9 @@ function Resource ({ match }) {
 
                 {calls.map((call, index, arr) => (
                     <Call
-                        key={`${call.method}-${call.name}`}
+                        key={`${call.method}-${name}`}
                         call={call}
-                        className={`${index === arr.length - 1 && 'flex-grow' }`}
+                        className={`${index === arr.length - 1 && 'flex-grow' } ${call.method}-${call.name}`}
                     />
                 ))}
 

@@ -9,7 +9,7 @@ const transformJsonSchema = (schema) => {
         schema = JSON.parse(schema);
     }
      
-    // TODO: Temporary parsing of ref
+    // If a top level ref is given follow that.
     if (schema.$ref) {
         const path = schema.$ref.split('/');
         // Parse only with root
