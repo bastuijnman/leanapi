@@ -35,11 +35,11 @@ export default function Bodies({ bodies, theme='light', title='Body' }) {
     
     const tabs = [];
     if (bodies[activeBodyIndex].example.length > 0) {
-        tabs.push(<pre key="example">{bodies[activeBodyIndex].example}</pre>);
+        tabs.push(<pre key="example" className="overflow-scroll">{bodies[activeBodyIndex].example}</pre>);
     }
 
     if (bodies[activeBodyIndex].schema.length > 0) {
-        tabs.push(<Schema schema={bodies[activeBodyIndex].schema} />);
+        tabs.push(<Schema key="schema" schema={bodies[activeBodyIndex].schema} />);
     }
 
     const activeTheme = themes[theme];
