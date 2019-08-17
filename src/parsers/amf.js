@@ -32,17 +32,7 @@ const transformOperationToCall = (operation) => {
         query: getParametersFromObject(operation.request, 'queryParameters'),
         headers: getParametersFromObject(operation.request, 'headers'),
         responses: operation.responses.map(transformResponse),
-        body: operation.request ? operation.request.payloads.map(payload => {
-            return {
-                name: payload.mediaType.value(),
-
-                // JSON Schema is easier to parse
-                schema: transformJsonSchema(payload.schema.toJsonSchema),
-
-                // TODO: See if it's a valid case to concatenate actual example bodies
-                example: payload.schema.examples.map(example => example.value.value()).join('\n\n OR \n\n')
-            }
-        }) : []
+        body: operation.request ? transformPayloadsToBody(operation.request.payloads) : []
     };
 };
 
@@ -52,10 +42,17 @@ const transformOperationToCall = (operation) => {
  * 
  * @param {*} payloads 
  */
-const transformExamplesForPayloads = (payloads) => {
-    const examples = payloads.map(payload => payload.schema.examples).flat();
-    return examples.map(example => {
-        return { body: example.value.value() };
+const transformPayloadsToBody = (payloads) => {
+    return payloads.map(payload => {
+        return {
+            name: payload.mediaType.value(),
+
+            // JSON Schema is easier to parse
+            schema: transformJsonSchema(payload.schema.toJsonSchema),
+
+            // TODO: See if it's a valid case to concatenate actual example bodies
+            example: payload.schema.examples.map(example => example.value.value()).join('\n\n OR \n\n')
+        }
     });
 };
 
@@ -68,7 +65,7 @@ const transformResponse = (response) => {
         code: response.statusCode.value(),
         description: response.description.value(),
         headers: getParametersFromObject(response, 'headers'),
-        examples: transformExamplesForPayloads(response.payloads)
+        body: transformPayloadsToBody(response.payloads)
     };
 }
 
