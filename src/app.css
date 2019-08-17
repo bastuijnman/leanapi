@@ -10,3 +10,7 @@
 
 /* Override for appearance none, only prefixed util needed, so postcss/autoprefixer would be overkill */
 .appearance-none { appearance: none; -moz-appearance: none; -webkit-appearance: none; }
+
+/* Better caching of schema table styles */
+.c-schema td { vertical-align: top; }
+.c-schema .description { @apply pb-4 opacity-75; }

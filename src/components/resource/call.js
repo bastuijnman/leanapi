@@ -5,6 +5,7 @@ import Response from './response';
 import CallHeading, { colorMap } from './call/heading';
 import Dropdown from '../dropdown';
 import ParameterBag from './parameterBag';
+import Schema from '../schema';
 
 function getBodySelectorOptions(values) {
     return values.map((value, index) => ({
@@ -49,9 +50,10 @@ function Call ({ call, className }) {
                             }
                         </p>
 
-                        <pre className="p-3 rounded bg-gray-300 text-gray-900 font-mono text-xs">
+                        <div className="p-3 rounded bg-gray-300 text-gray-900 font-mono text-xs">
                             {body[activeBodyIndex].example}
-                        </pre>
+                            <Schema schema={body[activeBodyIndex].schema} />
+                        </div>
                     </>
                     }
                 </div>

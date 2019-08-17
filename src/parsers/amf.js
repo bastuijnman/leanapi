@@ -1,4 +1,5 @@
 const wap = require('webapi-parser').WebApiParser;
+const transformJsonSchema = require('./json-schema');
 
 /**
  * Transform a parsed Endpoint into a LeanAPI resource object.
@@ -34,6 +35,9 @@ const transformOperationToCall = (operation) => {
         body: operation.request ? operation.request.payloads.map(payload => {
             return {
                 name: payload.mediaType.value(),
+
+                // JSON Schema is easier to parse
+                schema: transformJsonSchema(payload.schema.toJsonSchema),
 
                 // TODO: See if it's a valid case to concatenate actual example bodies
                 example: payload.schema.examples.map(example => example.value.value()).join('\n\n OR \n\n')
