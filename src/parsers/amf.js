@@ -46,6 +46,7 @@ const transformPayloadsToBody = (payloads) => {
     return payloads.map(payload => {
         return {
             name: payload.mediaType.value(),
+            description: payload.schema.description.value(),
 
             // JSON Schema is easier to parse
             schema: transformJsonSchema(payload.schema.toJsonSchema),

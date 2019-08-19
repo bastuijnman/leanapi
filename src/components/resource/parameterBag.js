@@ -11,7 +11,7 @@ export default function ParameterBag({ title, parameters, className }) {
                     {parameter.required && <span className="float-right text-gray-600">REQUIRED</span>}
 
                     <p className="text-sm">{parameter.description}</p>
-                    <p className="text-sm break-all"><strong>Example:</strong> <span className="font-mono">{parameter.example}</span></p>
+                    {parameter.example && <p className="text-sm break-all"><strong>Example:</strong> <span className="font-mono">{parameter.example}</span></p>}
                 </div>
             ))}
         </div>
