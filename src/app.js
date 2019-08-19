@@ -44,7 +44,7 @@ class App extends React.Component {
 
         // Render actual application
         return (
-            <Router basename={location.pathname}>
+            <Router>
                 <ApiContext.Provider value={api}>
                     <div className="flex max-w-full">
                         <div className="w-1/5 min-h-screen bg-gray-300">
