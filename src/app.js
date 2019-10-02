@@ -2,7 +2,7 @@
 
 // Base libraries
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 
 // API Context
 import ApiContext from './context/api';
